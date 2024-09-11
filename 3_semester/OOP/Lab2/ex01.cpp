@@ -29,25 +29,35 @@ void printArr(int* arr, const std::size_t N) {
 }
 
 void getRightDiagonal(int** mat, const std::size_t N) {
-	int* D = new int[N];
+	int* D = new int[N * N];
 
-	for (std::size_t i = 0; i < N; i++)
-		D[i] = mat[i][N - i - 1];
+	std::size_t I = 0;
+	for (std::size_t n = 0; n < N; n++)
+		for (std::size_t i = 0; i <= n; i++)
+			D[I++] = mat[i][n - i];
+	for (std::size_t n = 1; n < N; n++)
+		for (std::size_t i = 0; i < N - n; i++)
+			D[I++] = mat[i + n][N - i - 1];
 
 	std::print("Right diagonal: ");
-	printArr(D, N);
+	printArr(D, N * N);
 
 	delete[] D;
 }
 
 void getLeftDiagonal(int** mat, const std::size_t N) {
-	int* D = new int[N];
+	int* D = new int[N * N];
 
-	for (std::size_t i = 0; i < N; i++)
-		D[i] = mat[i][i];
+	std::size_t I = 0;
+	for (std::size_t n = 0; n < N; n++)
+		for (std::size_t i = 0; i <= n; i++)
+			D[I++] = mat[i + N - 1 - n][i];
+	for (std::size_t n = 1; n < N; n++)
+		for (std::size_t i = 0; i < N - n; i++)
+			D[I++] = mat[i][i + n];
 
 	std::print("Left diagonal: ");
-	printArr(D, N);
+	printArr(D, N * N);
 
 	delete[] D;
 }
@@ -69,43 +79,43 @@ void spiralFromCenter(int** mat, const std::size_t N) {
 		D[i] = mat[y][x];
 
 		switch (dir) {
-			case up:
-				y--;
-				line--;
-				if (line == 0) {
-					dir = left;
-					line = max_line;
-				}
-				break;
+		case up:
+			y--;
+			line--;
+			if (line == 0) {
+				dir = left;
+				line = max_line;
+			}
+			break;
 
-			case left:
-				x--;
-				line--;
-				if (line == 0) {
-					dir = down;
-					max_line += (i == 3) ? 2 : 1;
-					line = max_line;
-				}
-				break;
+		case left:
+			x--;
+			line--;
+			if (line == 0) {
+				dir = down;
+				max_line += (i == 3) ? 2 : 1;
+				line = max_line;
+			}
+			break;
 
-			case down:
-				y++;
-				line--;
-				if (line == 0) {
-					dir = right;
-					line = max_line;
-				}
-				break;
+		case down:
+			y++;
+			line--;
+			if (line == 0) {
+				dir = right;
+				line = max_line;
+			}
+			break;
 
-			case right:
-				x++;
-				line--;
-				if (line == 0) {
-					dir = up;
-					max_line++;
-					line = max_line;
-				}
-				break;
+		case right:
+			x++;
+			line--;
+			if (line == 0) {
+				dir = up;
+				max_line++;
+				line = max_line;
+			}
+			break;
 		}
 	}
 
@@ -190,10 +200,10 @@ void main_ex01() {
 	std::size_t N;
 	std::cin >> N;
 	std::println("");
-	
+
 	int** mat = createMatrix(N);
 	printMat(mat, N);
-	
+
 	getRightDiagonal(mat, N);
 	getLeftDiagonal(mat, N);
 	spiralFromCenter(mat, N);
