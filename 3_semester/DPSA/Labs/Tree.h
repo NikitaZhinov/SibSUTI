@@ -66,6 +66,12 @@ class BTree {
 		return l + getSumLenght(p->left, l + 1) + getSumLenght(p->right, l + 1);
 	}
 
+	std::size_t getSum(BTreeNode<T>* p) {
+		if (p == nullptr)
+			return 0;
+		return p->value + getSum(p->left) + getSum(p->right);
+	}
+
 public:
 	BTree() : root(nullptr) {}
 
@@ -154,5 +160,9 @@ public:
 
 	double getMediumHeight() {
 		return  static_cast<double>(getSumLenght(root, 1)) / static_cast<double>(getSize(root));
+	}
+
+	std::size_t getSum() {
+		return getSum(root);
 	}
 };

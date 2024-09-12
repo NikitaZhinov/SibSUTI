@@ -17,8 +17,9 @@ void lab1() {
     tree.printFromDownToUp();
 
     std::println("Tree size: {}", tree.getSize());
+    std::println("Tree sum: {}", tree.getSum());
     std::println("Tree height: {}", tree.getHeight());
-    std::println("Tree medium height: {}", tree.getMediumHeight());
+    std::println("Tree medium height: {:.2f}", tree.getMediumHeight());
 }
 
 int main() {
