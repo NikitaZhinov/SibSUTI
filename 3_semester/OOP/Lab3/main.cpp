@@ -1,33 +1,53 @@
-#include <SFML/Graphics.hpp>
-#include <Windows.h>
+#include "model.h"
 
-import tPointModule;
-import ControlModule;
+void getInput(ModelParams &model) {
+    std::ifstream input_file(Common::input_file_name);
+
+    input_file >> model.map_size.x >> model.map_size.y >> model.step_number;
+
+    std::size_t R, F;
+    input_file >> R >> F;
+    for (std::size_t i = 0; i < R; i++) {
+        AnimalParams param;
+        input_file >> param.position.x >> param.position.y >> param.dir >> param.stability;
+        param.speed = 1;
+        model.rabbits.push_back(param);
+    }
+    for (std::size_t i = 0; i < F; i++) {
+        AnimalParams param;
+        input_file >> param.position.x >> param.position.y >> param.dir >> param.stability;
+        param.speed = 2;
+        model.foxes.push_back(param);
+    }
+
+    input_file.close();
+}
+
+void printMap(const std::vector<std::vector<long long>> &map) {
+    std::ofstream output_file(Common::output_file_name);
+
+    for (std::size_t i = 0; i < map.size(); i++) {
+        std::string line;
+        for (std::size_t j = 0; j < map[i].size(); j++) {
+            if (map[i][j] == 0)
+                line.push_back('*');
+            else
+                line.append(std::format("{}", map[i][j]));
+        }
+        line.push_back('\n');
+        output_file << line;
+    }
+
+    output_file.close();
+}
 
 int main() {
-	// window size
-	int width = 800, height = 800;
+    ModelParams model_params;
+    getInput(model_params);
 
-	Contor<100> c(width, height, 2.);
+    Model model(model_params);
 
-	sf::RenderWindow window(sf::VideoMode(width, height), "Lab 3");
-	while (window.isOpen()) {
-		sf::Event event;
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-
-		window.clear(sf::Color::Black);
-
-		c.move();
-		c.collision();
-		c.draw(window);
-
-		Sleep(1);
-
-		window.display();
-	}
+    printMap(model.start());
 
 	return 0;
 }
