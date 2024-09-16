@@ -13,14 +13,13 @@ struct AnimalParams {
 class Animal {
 protected:
     AnimalParams param;
-    std::size_t age_mother;
 
 public:
-    Animal();
+    Animal() = default;
     Animal(const AnimalParams &param);
 
     void move(const Common::Point &map_size);
-    void aging();
+    virtual void aging() = 0;
     void turn();
 
     Common::Point getPosition();
@@ -28,23 +27,27 @@ public:
     std::size_t getDir();
     std::size_t getStability();
     std::size_t getSpeed();
-    std::size_t getAgeMother() const;
 };
 
 class Rabbit : public Animal {
 public:
     Rabbit(const AnimalParams &param);
+
+    void aging() override;
 };
 
 class Fox : public Animal {
     std::size_t eated;
+    std::size_t age_mother;
 
 public:
-    Fox();
-    Fox(const AnimalParams &param);
+    Fox(const AnimalParams &param, std::size_t age_mother);
 
     void eating();
     void reproduction();
 
+    void aging() override;
+
     std::size_t getEated();
+    std::size_t getAgeMother() const;
 };

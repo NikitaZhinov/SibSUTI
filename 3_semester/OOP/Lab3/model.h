@@ -15,12 +15,12 @@ struct ModelParams {
 
 class Model {
     ModelParams params;
-    std::vector<std::vector<long long>> map;
+    std::vector<std::vector<int64_t>> map;
 
 public:
     Model(const ModelParams &params);
     Model(const Model &other);
 
-    std::vector<std::vector<long long>> &start();
+    std::vector<std::vector<int64_t>> &start();
     void step();
 };

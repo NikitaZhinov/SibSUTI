@@ -17,7 +17,7 @@ void getInput(ModelParams &model) {
         AnimalParams param;
         input_file >> param.position.x >> param.position.y >> param.dir >> param.stability;
         param.speed = 2;
-        model.foxes.push_back(param);
+        model.foxes.push_back(Fox(param, 0));
     }
 
     input_file.close();

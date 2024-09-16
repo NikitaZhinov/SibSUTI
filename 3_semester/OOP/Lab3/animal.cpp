@@ -1,14 +1,12 @@
 #include "animal.h"
 
-Animal::Animal() : age_mother(0) {}
-
-Animal::Animal(const AnimalParams &param) : param(param), age_mother(0) {}
+Animal::Animal(const AnimalParams &param) : param(param) {}
 
 void Animal::move(const Common::Point &map_size) {
     switch (param.dir) {
         case 0: {
-            if (static_cast<long long>(param.position.y) - static_cast<long long>(param.speed) < 0)
-                param.position.y = map_size.y - param.speed;
+            if (static_cast<int64_t>(param.position.y) - static_cast<int64_t>(param.speed) < 0)
+                param.position.y = map_size.y + param.position.y - param.speed;
             else
                 param.position.y -= param.speed;
         } break;
@@ -28,8 +26,8 @@ void Animal::move(const Common::Point &map_size) {
         } break;
 
         case 3: {
-            if (static_cast<long long>(param.position.x) - static_cast<long long>(param.speed) < 0)
-                param.position.x = map_size.x - param.speed;
+            if (static_cast<int64_t>(param.position.x) - static_cast<int64_t>(param.speed) < 0)
+                param.position.x = map_size.x + param.position.x - param.speed;
             else
                 param.position.x -= param.speed;
         } break;
@@ -38,17 +36,16 @@ void Animal::move(const Common::Point &map_size) {
             break;
     }
     aging();
-    if (param.age % param.stability == 0)
-        turn();
+    turn();
 }
 
 void Animal::aging() {
     param.age++;
-    age_mother++;
 }
 
 void Animal::turn() {
-    param.dir = (param.dir == 3) ? 0 : param.dir + 1;
+    if (param.age % param.stability == 0)
+        param.dir = (param.dir + 1) % 4;
 }
 
 Common::Point Animal::getPosition() {
@@ -71,17 +68,15 @@ std::size_t Animal::getSpeed() {
     return param.speed;
 }
 
-std::size_t Animal::getAgeMother() const {
-    return age_mother;
-}
-
-Fox::Fox() : eated(0) {}
-
 Rabbit::Rabbit(const AnimalParams &param) {
     this->param = param;
 }
 
-Fox::Fox(const AnimalParams &param) : Fox::Fox() {
+void Rabbit::aging() {
+    param.age++;
+}
+
+Fox::Fox(const AnimalParams &param, std::size_t age_mother) : eated(0), age_mother(age_mother) {
     this->param = param;
 }
 
@@ -90,9 +85,18 @@ void Fox::eating() {
 }
 
 void Fox::reproduction() {
-    eated = 0;
+    eated -= 2;
+}
+
+void Fox::aging() {
+    param.age++;
+    age_mother++;
 }
 
 std::size_t Fox::getEated() {
     return eated;
+}
+
+std::size_t Fox::getAgeMother() const {
+    return age_mother;
 }
