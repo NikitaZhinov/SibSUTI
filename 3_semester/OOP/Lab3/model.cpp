@@ -20,21 +20,23 @@ std::vector<std::vector<int64_t>> &Model::start() {
 void Model::step() {
     // rabbits
     std::vector<std::list<Rabbit>::iterator> new_rabbits;
+    std::vector<std::list<Rabbit>::iterator> old_rabbits;
     for (auto rabbit = params.rabbits.begin(); rabbit != params.rabbits.end(); rabbit++) {
         rabbit->move(params.map_size);
         if (rabbit->getAge() % 5 == 0)
             new_rabbits.push_back(rabbit);
-        if (rabbit->getAge() == 10) {
-            params.rabbits.erase(rabbit);
-            if (params.rabbits.size() == 0)
-                break;
-        }
+        if (rabbit->getAge() == 10)
+            old_rabbits.push_back(rabbit);
     }
+    for (auto old_rabbit : old_rabbits)
+        params.rabbits.erase(old_rabbit);
     for (auto new_rabbit : new_rabbits)
         params.rabbits.push_back(Rabbit({ new_rabbit->getPosition(), new_rabbit->getDir(), 0, new_rabbit->getSpeed(), new_rabbit->getStability() }));
 
     // foxes
     std::vector<std::list<Fox>::iterator> new_foxes;
+    std::vector<std::list<Fox>::iterator> old_foxes;
+    std::vector<std::list<Rabbit>::iterator> eated_rabbits;
     params.foxes.sort([](const Fox &a, const Fox &b) {
         if (a.getAge() == b.getAge())
             return a.getAgeMother() > b.getAgeMother();
@@ -43,18 +45,13 @@ void Model::step() {
     for (auto fox = params.foxes.begin(); fox != params.foxes.end(); fox++) {
         fox->move(params.map_size);
         
-        if (fox->getAge() == 15) {
-            params.foxes.erase(fox);
-            if (params.foxes.size() == 0)
-                break;
-        }
+        if (fox->getAge() == 15)
+            old_foxes.push_back(fox);
         
         for (auto rabbit = params.rabbits.begin(); rabbit != params.rabbits.end(); rabbit++) {
             if (rabbit->getPosition() == fox->getPosition()) {
-                params.rabbits.erase(rabbit);
+                eated_rabbits.push_back(rabbit);
                 fox->eating();
-                if (params.rabbits.size() == 0)
-                    break;
             }
         }
 
@@ -63,8 +60,12 @@ void Model::step() {
             new_foxes.push_back(fox);
         }
     }
+    for (auto old_fox : old_foxes)
+        params.foxes.erase(old_fox);
     for (auto new_fox : new_foxes)
         params.foxes.push_back(Fox({ new_fox->getPosition(), new_fox->getDir(), 0, new_fox->getSpeed(), new_fox->getStability() }, new_fox->getAge()));
+    for (auto eated_rabbit : eated_rabbits)
+        params.rabbits.erase(eated_rabbit);
 
     // map
     for (std::size_t y = 0; y < params.map_size.y; y++) {
