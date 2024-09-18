@@ -1,35 +1,39 @@
 #include "animal.h"
 
-Animal::Animal(const AnimalParams &param) : param(param) {}
+#include <cstdint>
 
-void Animal::move(const Common::Point &map_size) {
+Animal::Animal() : age(0), speed(0) {}
+
+Animal::Animal(const AnimalParams &param) : param(param), age(0), speed(0) {}
+
+void Animal::move(const Point &map_size) {
     switch (param.dir) {
         case 0: {
-            if (static_cast<int64_t>(param.position.y) - static_cast<int64_t>(param.speed) < 0)
-                param.position.y = map_size.y + param.position.y - param.speed;
+            if (static_cast<int64_t>(param.position.y) - static_cast<int64_t>(speed) < 0)
+                param.position.y = map_size.y + param.position.y - speed;
             else
-                param.position.y -= param.speed;
+                param.position.y -= speed;
         } break;
 
         case 1: {
-            if (param.position.x + param.speed >= map_size.x)
-                param.position.x -= map_size.x - param.speed;
+            if (param.position.x + speed >= map_size.x)
+                param.position.x -= map_size.x - speed;
             else
-                param.position.x += param.speed;
+                param.position.x += speed;
         } break;
 
         case 2: {
-            if (param.position.y + param.speed >= map_size.y)
-                param.position.y -= map_size.y - param.speed;
+            if (param.position.y + speed >= map_size.y)
+                param.position.y -= map_size.y - speed;
             else
-                param.position.y += param.speed;
+                param.position.y += speed;
         } break;
 
         case 3: {
-            if (static_cast<int64_t>(param.position.x) - static_cast<int64_t>(param.speed) < 0)
-                param.position.x = map_size.x + param.position.x - param.speed;
+            if (static_cast<int64_t>(param.position.x) - static_cast<int64_t>(speed) < 0)
+                param.position.x = map_size.x + param.position.x - speed;
             else
-                param.position.x -= param.speed;
+                param.position.x -= speed;
         } break;
 
         default:
@@ -39,21 +43,17 @@ void Animal::move(const Common::Point &map_size) {
     turn();
 }
 
-void Animal::aging() {
-    param.age++;
-}
-
 void Animal::turn() {
-    if (param.age % param.stability == 0)
+    if (age % param.stability == 0)
         param.dir = (param.dir + 1) % 4;
 }
 
-Common::Point Animal::getPosition() {
+Point Animal::getPosition() {
     return param.position;
 }
 
 std::size_t Animal::getAge() const {
-    return param.age;
+    return age;
 }
 
 std::size_t Animal::getDir() {
@@ -65,19 +65,30 @@ std::size_t Animal::getStability() {
 }
 
 std::size_t Animal::getSpeed() {
-    return param.speed;
+    return speed;
 }
 
-Rabbit::Rabbit(const AnimalParams &param) {
+Rabbit::Rabbit() {
+    speed = 1;
+    age = 0;
+}
+
+Rabbit::Rabbit(const AnimalParams &param) : Rabbit::Rabbit() {
     this->param = param;
 }
 
 void Rabbit::aging() {
-    param.age++;
+    age++;
 }
 
-Fox::Fox(const AnimalParams &param, std::size_t age_mother) : eated(0), age_mother(age_mother) {
+Fox::Fox() : eated(0), age_mother(0) {
+    speed = 2;
+    age = 0;
+}
+
+Fox::Fox(const AnimalParams &param, std::size_t age_mother) : Fox::Fox() {
     this->param = param;
+    this->age_mother = age_mother;
 }
 
 void Fox::eating() {
@@ -89,7 +100,7 @@ void Fox::reproduction() {
 }
 
 void Fox::aging() {
-    param.age++;
+    age++;
     age_mother++;
 }
 

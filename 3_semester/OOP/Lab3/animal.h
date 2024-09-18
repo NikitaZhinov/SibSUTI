@@ -1,28 +1,30 @@
 #pragma once
 
-#include "common.h"
+#include "point.h"
 
 struct AnimalParams {
-    Common::Point position;
+    Point position;
     std::size_t dir = 0;
-    std::size_t age = 0;
-    std::size_t speed = 0;
     std::size_t stability = 0;
 };
 
 class Animal {
 protected:
     AnimalParams param;
+    std::size_t age;
+    std::size_t speed;
 
 public:
-    Animal() = default;
+    Animal();
     Animal(const AnimalParams &param);
 
-    void move(const Common::Point &map_size);
+    ~Animal() = default;
+
+    void move(const Point &map_size);
     virtual void aging() = 0;
     void turn();
 
-    Common::Point getPosition();
+    Point getPosition();
     std::size_t getAge() const;
     std::size_t getDir();
     std::size_t getStability();
@@ -31,7 +33,10 @@ public:
 
 class Rabbit : public Animal {
 public:
+    Rabbit();
     Rabbit(const AnimalParams &param);
+
+    ~Rabbit() = default;
 
     void aging() override;
 };
@@ -41,7 +46,10 @@ class Fox : public Animal {
     std::size_t age_mother;
 
 public:
+    Fox();
     Fox(const AnimalParams &param, std::size_t age_mother);
+
+    ~Fox() = default;
 
     void eating();
     void reproduction();

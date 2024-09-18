@@ -18,31 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="animal.cpp" />
-    <ClCompile Include="point.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="model.cpp" />
-    <ClCompile Include="rwer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="input.txt" />
-    <Text Include="output.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include=".clang-format" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="animal.h" />
-    <ClInclude Include="point.h" />
-    <ClInclude Include="model.h" />
-    <ClInclude Include="rwer.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c14cba07-8f4c-4f7b-a013-aa0926c4aef4}</ProjectGuid>
-    <RootNamespace>Lab3</RootNamespace>
+    <ProjectGuid>{29c2e629-05f6-47ca-b0d8-97b154442634}</ProjectGuid>
+    <RootNamespace>CourseWorkConsole</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -90,9 +70,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Label="Vcpkg">
-    <VcpkgEnableManifest>false</VcpkgEnableManifest>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -157,6 +134,19 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="printer.cpp" />
+    <ClCompile Include="record.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="printer.h" />
+    <ClInclude Include="record.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".clang-format" />
+    <None Include="testBase1.dat" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

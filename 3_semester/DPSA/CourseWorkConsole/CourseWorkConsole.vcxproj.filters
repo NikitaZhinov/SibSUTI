@@ -18,44 +18,27 @@
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="point.cpp">
+    <ClCompile Include="record.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="model.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="animal.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="rwer.cpp">
+    <ClCompile Include="printer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="output.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
+    <ClInclude Include="record.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="printer.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="testBase1.dat">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
     <None Include=".clang-format">
       <Filter>Файлы ресурсов</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="point.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="model.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="animal.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="rwer.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

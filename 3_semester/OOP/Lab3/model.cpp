@@ -31,7 +31,7 @@ void Model::step() {
     for (auto old_rabbit : old_rabbits)
         params.rabbits.erase(old_rabbit);
     for (auto new_rabbit : new_rabbits)
-        params.rabbits.push_back(Rabbit({ new_rabbit->getPosition(), new_rabbit->getDir(), 0, new_rabbit->getSpeed(), new_rabbit->getStability() }));
+        params.rabbits.push_back(Rabbit({ new_rabbit->getPosition(), new_rabbit->getDir(), new_rabbit->getStability() }));
 
     // foxes
     std::vector<std::list<Fox>::iterator> new_foxes;
@@ -63,7 +63,7 @@ void Model::step() {
     for (auto old_fox : old_foxes)
         params.foxes.erase(old_fox);
     for (auto new_fox : new_foxes)
-        params.foxes.push_back(Fox({ new_fox->getPosition(), new_fox->getDir(), 0, new_fox->getSpeed(), new_fox->getStability() }, new_fox->getAge()));
+        params.foxes.push_back(Fox({ new_fox->getPosition(), new_fox->getDir(), new_fox->getStability() }, new_fox->getAge()));
     for (auto eated_rabbit : eated_rabbits)
         params.rabbits.erase(eated_rabbit);
 
@@ -73,11 +73,11 @@ void Model::step() {
             map[y][x] = 0;
             long long count = 0;
             for (auto rabbit : params.rabbits)
-                if (rabbit.getPosition() == Common::Point(x, y))
+                if (rabbit.getPosition() == Point(x, y))
                     map[y][x] = ++count;
             count = 0;
             for (auto fox : params.foxes)
-                if (fox.getPosition() == Common::Point(x, y))
+                if (fox.getPosition() == Point(x, y))
                     map[y][x] = --count;
         }
     }
