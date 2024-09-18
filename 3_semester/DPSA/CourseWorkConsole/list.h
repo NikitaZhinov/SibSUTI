@@ -8,8 +8,7 @@ struct _List_node {
     _List_node *next_, *prev_;
     Type value_;
 
-    _List_node(const Type &value)
-        : next_(nullptr), prev_(nullptr), value_(value) {}
+    _List_node(const Type &value) : next_(nullptr), prev_(nullptr), value_(value) {}
 };
 
 template <class Type>
@@ -26,8 +25,7 @@ struct _List_iterator {
 
     _List_iterator(_node *pointer) noexcept : current(pointer), last(nullptr) {}
 
-    _List_iterator(_node *pointer, _node *pointer_of_last) noexcept
-        : current(pointer), last(pointer_of_last) {}
+    _List_iterator(_node *pointer, _node *pointer_of_last) noexcept : current(pointer), last(pointer_of_last) {}
 
     _self __const_cast__() const noexcept { return *this; }
 

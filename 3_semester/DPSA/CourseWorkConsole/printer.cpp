@@ -3,31 +3,45 @@
 #include <print>
 #include <iostream>
 #include <cstdint>
+#include <Windows.h>
 
 const uint8_t Printer::COUNT_LINE_OF_PAGE = 20;
 const uint16_t Printer::MAX_PAGE = Record::getCountRecords() / Printer::COUNT_LINE_OF_PAGE;
 
 void Printer::printRecords(const list<Record> &records) {
-    std::println("Select the viewing mode:");
-    std::println("1 - View by pages");
-    std::println("2 - View all");
-    std::println("0 - Do not view");
-
     uint8_t mode = 0;
-    std::cin >> mode;
+    
+    SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
 
-    switch (mode) {
-        case '1':
-            printByPages(records);
-            break;
+    do {
+#if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__)
+        std::system("cls");
+#else
+        std::system("clear");
+#endif
 
-        case '2':
-            printAll(records);
-            break;
+        std::println("Выберите режим просмотра:");
+        std::println("1 - Просмотр по страницам");
+        std::println("2 - Посмотреть все");
+        std::println("0 - Не просматривать");
 
-        default:
-            break;
-    }
+        std::cin >> mode;
+
+        switch (mode) {
+            case '1':
+                printByPages(records);
+                mode = '0';
+                break;
+
+            case '2':
+                printAll(records);
+                mode = '0';
+                break;
+
+            default:
+                break;
+        }
+    } while (mode != '0');
 }
 
 void Printer::printByPages(const list<Record> &records) {
@@ -40,6 +54,7 @@ void Printer::printByPages(const list<Record> &records) {
 #else
         std::system("clear");
 #endif
+        SetConsoleOutputCP(866);
 
         auto start_it = records.begin();
         for (uint16_t i = 0; i < page * COUNT_LINE_OF_PAGE; i++)
@@ -49,11 +64,13 @@ void Printer::printByPages(const list<Record> &records) {
             end_it++;
         for (auto it = start_it; it != end_it; it++)
             Record::printRecord(*it);
-        std::println("{}/{}", page + 1, MAX_PAGE);
+        std::println("{}/{}\n", page + 1, MAX_PAGE);
 
-        std::println("1 - Next page");
-        std::println("2 - Previous page");
-        std::println("0 - Exit");
+        SetConsoleOutputCP(1251);
+
+        std::println("1 - Следующая страница");
+        std::println("2 - Предыдущая страница");
+        std::println("0 - Выход");
 
         std::cin >> mode;
 
@@ -76,6 +93,7 @@ void Printer::printByPages(const list<Record> &records) {
 }
 
 void Printer::printAll(const list<Record> &records) {
+    SetConsoleOutputCP(866);
     for (const Record &rec : records)
         Record::printRecord(rec);
 }
