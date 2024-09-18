@@ -140,6 +140,7 @@
     <ClCompile Include="record.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="list.h" />
     <ClInclude Include="printer.h" />
     <ClInclude Include="record.h" />
   </ItemGroup>

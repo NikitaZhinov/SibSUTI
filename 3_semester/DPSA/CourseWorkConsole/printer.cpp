@@ -4,10 +4,10 @@
 #include <iostream>
 #include <cstdint>
 
-const uint8_t Printer::count_line_of_page = 20;
-const uint8_t Printer::max_page = Record::getCountRecords() / Printer::count_line_of_page;
+const uint8_t Printer::COUNT_LINE_OF_PAGE = 20;
+const uint16_t Printer::MAX_PAGE = Record::getCountRecords() / Printer::COUNT_LINE_OF_PAGE;
 
-void Printer::printRecords(Record *records) {
+void Printer::printRecords(const list<Record> &records) {
     std::println("Select the viewing mode:");
     std::println("1 - View by pages");
     std::println("2 - View all");
@@ -22,6 +22,7 @@ void Printer::printRecords(Record *records) {
             break;
 
         case '2':
+            printAll(records);
             break;
 
         default:
@@ -29,7 +30,7 @@ void Printer::printRecords(Record *records) {
     }
 }
 
-void Printer::printByPages(Record *records) {
+void Printer::printByPages(const list<Record> &records) {
     uint8_t mode = 0;
     uint16_t page = 0;
 
@@ -40,9 +41,15 @@ void Printer::printByPages(Record *records) {
         std::system("clear");
 #endif
 
-        for (uint16_t i = count_line_of_page * page; i < count_line_of_page * (page + 1); i++)
-            Record::printRecord(records[i]);
-        std::println("{}/{}\n", page + 1, max_page);
+        auto start_it = records.begin();
+        for (uint16_t i = 0; i < page * COUNT_LINE_OF_PAGE; i++)
+            start_it++;
+        auto end_it = start_it;
+        for (uint16_t i = 0; i < COUNT_LINE_OF_PAGE; i++)
+            end_it++;
+        for (auto it = start_it; it != end_it; it++)
+            Record::printRecord(*it);
+        std::println("{}/{}", page + 1, MAX_PAGE);
 
         std::println("1 - Next page");
         std::println("2 - Previous page");
@@ -52,12 +59,12 @@ void Printer::printByPages(Record *records) {
 
         switch (mode) {
             case '1':
-                if (page < max_page)
+                if (page < MAX_PAGE - 1)
                     page++;
                 break;
 
             case '2':
-                if (page > 1)
+                if (page > 0)
                     page--;
                 break;
 
@@ -66,4 +73,9 @@ void Printer::printByPages(Record *records) {
         }
 
     } while (mode != '0');
+}
+
+void Printer::printAll(const list<Record> &records) {
+    for (const Record &rec : records)
+        Record::printRecord(rec);
 }

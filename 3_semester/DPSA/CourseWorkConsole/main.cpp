@@ -8,12 +8,12 @@ int main() {
     std::ifstream file_base("testBase1.dat", std::ios_base::binary);
 
     if (file_base.is_open()) {
-        Record *records = Record::getRecords(file_base);
+        list<Record> records = Record::getRecords(file_base);
+        Record::sortRecords(records);
 
         Printer::printRecords(records);
 
         file_base.close();
-        delete[] records;
     } else
         std::println("File testBase1.dat is not found!");
 

@@ -3,10 +3,11 @@
 #include "record.h"
 
 class Printer {
-    static const uint8_t count_line_of_page;
-    static const uint8_t max_page;
+    static const uint8_t COUNT_LINE_OF_PAGE;
+    static const uint16_t MAX_PAGE;
 
 public:
-    static void printRecords(Record *records);
-    static void printByPages(Record *records);
+    static void printRecords(const list<Record> &records);
+    static void printByPages(const list<Record> &records);
+    static void printAll(const list<Record> &records);
 };

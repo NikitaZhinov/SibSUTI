@@ -1,10 +1,13 @@
 #include "record.h"
 
 #include <print>
-#include <iostream>
-#include <queue>
+#include <list>
 
-const std::size_t Record::cout_of_records = 4000;
+const uint16_t Record::COUNT_OF_RECORDS = 4000;
+const uint8_t Record::AUTOR_LEN = 12;
+const uint8_t Record::TITLE_LEN = 32;
+const uint8_t Record::PUBLISH_LEN = 16;
+const uint8_t Record::BITE_NUMBER = 3;
 
 void Record::__copy__(const Record &other) {
     for (std::size_t i = 0; i < AUTOR_LEN; i++)
@@ -24,7 +27,7 @@ Record::Record() : year(0), count_of_line(0) {
     publish = new char[PUBLISH_LEN];
 }
 
-Record::Record(const Record &other) {
+Record::Record(const Record &other) : Record::Record() {
     __copy__(other);
 }
 
@@ -39,19 +42,15 @@ Record::~Record() {
     delete[] publish;
 }
 
-Record *Record::getRecords(std::ifstream &file_base) {
-    Record *records = new Record[cout_of_records];
+list<Record> Record::getRecords(std::ifstream &file_base) {
+    list<Record> records(COUNT_OF_RECORDS);
 
-    for (std::size_t i = 0; i < cout_of_records; i++) {
-        Record rec;
-
+    for (Record &rec : records) {
         file_base.read(rec.author, rec.AUTOR_LEN);
         file_base.read(rec.title, rec.TITLE_LEN);
         file_base.read(rec.publish, rec.PUBLISH_LEN);
         file_base.read((char *)&rec.year, sizeof(rec.year));
         file_base.read((char *)&rec.count_of_line, sizeof(rec.count_of_line));
-
-        records[i] = rec;
     }
 
     return records;
@@ -61,16 +60,31 @@ void Record::printRecord(const Record &rec) {
     std::println("{} | {} | {} | {} | {}", rec.author, rec.title, rec.publish, rec.year, rec.count_of_line);
 }
 
-void Record::sortRecords(Record *recs) {
+void Record::sortRecords(list<Record> &recs) {
     const int count_of_queue = 256;
 
-    for (int i = 0; i < 3; i++) {
-        std::queue<char> Q[count_of_queue];
+    for (int i = BITE_NUMBER - 1; i >= 0; i--) {
+        list<Record> Q[count_of_queue];
 
-        for (int j = 0; j < Record::getCountRecords(); j++)
+        for (auto &rec : recs) {
+            int c = 0;
+            int j = 0;
+            for (int k = 0; k < 2; k++) {
+                do {
+                    c = rec.title[j++];
+                } while (c != ' ');
+            }
+
+            int index = std::abs(rec.title[j + i]) % count_of_queue;
+            Q[index].push_back(rec);
+        }
+
+        recs.clear();
+        for (int j = count_of_queue - 1; j >= 0; j--)
+            recs.insert(recs.cend(), Q[j]);
     }
 }
 
-std::size_t Record::getCountRecords() {
-    return cout_of_records;
+uint16_t Record::getCountRecords() {
+    return COUNT_OF_RECORDS;
 }
