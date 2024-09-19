@@ -8,35 +8,37 @@
 const uint8_t Printer::COUNT_LINE_OF_PAGE = 20;
 const uint16_t Printer::MAX_PAGE = Record::getCountRecords() / Printer::COUNT_LINE_OF_PAGE;
 
+void Printer::clearConsole() {
+#if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__)
+    std::system("cls");
+#else
+    std::system("clear");
+#endif
+}
+
 void Printer::printRecords(const list<Record> &records) {
     uint8_t mode = 0;
 
-    SetConsoleCP(1251);       // установка кодовой страницы win-cp 1251 в поток ввода
-    SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
+    SetConsoleCP(1251); // установка кодовой страницы win-cp 1251 в поток ввода
 
     do {
-#if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__)
-        std::system("cls");
-#else
-        std::system("clear");
-#endif
+        clearConsole();
+        SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
 
         std::println("Выберите режим просмотра:");
         std::println("1 - Просмотр по страницам");
         std::println("2 - Посмотреть все");
-        std::println("0 - Не просматривать");
+        std::println("0 - Выход");
 
         std::cin >> mode;
 
         switch (mode) {
             case '1':
                 printByPages(records);
-                mode = '0';
                 break;
 
             case '2':
                 printAll(records);
-                mode = '0';
                 break;
 
             default:
@@ -50,11 +52,7 @@ void Printer::printByPages(const list<Record> &records) {
     uint16_t page = 0;
 
     do {
-#if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__)
-        std::system("cls");
-#else
-        std::system("clear");
-#endif
+        clearConsole();
         SetConsoleOutputCP(866);
 
         auto start_it = records.begin();
@@ -71,7 +69,7 @@ void Printer::printByPages(const list<Record> &records) {
 
         std::println("1 - Следующая страница");
         std::println("2 - Предыдущая страница");
-        std::println("0 - Выход");
+        std::println("0 - Назад");
 
         std::cin >> mode;
 
@@ -97,4 +95,10 @@ void Printer::printAll(const list<Record> &records) {
     SetConsoleOutputCP(866);
     for (const Record &rec : records)
         Record::printRecord(rec);
+    SetConsoleOutputCP(1251);
+    char a = 0;
+    std::println("\n0 - Назад");
+    do {
+        std::cin >> a;
+    } while (a != '0');
 }
