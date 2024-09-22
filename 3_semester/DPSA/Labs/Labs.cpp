@@ -75,7 +75,7 @@ void lab3() {
 int main() {
     // lab1();
     // lab2();
-    // lab3();
+    lab3();
 
     return 0;
 }
