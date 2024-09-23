@@ -1,6 +1,6 @@
 #pragma once
 
-#include "list.h"
+#include "queue.h"
 
 #include <fstream>
 
@@ -19,6 +19,8 @@ class Record {
 
     void __copy__(const Record &other);
 
+    static void __getLastName__(char title[], char *last_name);
+
 public:
     Record();
     Record(const Record &other);
@@ -26,9 +28,16 @@ public:
 
     Record &operator=(const Record &other);
 
+    static uint16_t getCountOfRecords();
+    static uint8_t getAutorLen();
+    static uint8_t getTitleLen();
+    static uint8_t getPublishLen();
+    static uint8_t getBiteNumber();
+
     static list<Record> getRecords(std::ifstream &file_base);
     static void printRecord(const Record &rec);
     static void sortRecords(list<Record> &recs);
+    static void searchRecords(const list<Record> &records, queue<Record> &searched_records, char *key);
 
     static uint16_t getCountRecords();
 };

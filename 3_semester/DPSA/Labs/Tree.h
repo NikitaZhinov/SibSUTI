@@ -241,7 +241,8 @@ private:
 public:
     PBSTree() = default;
 
-    PBSTree(const std::vector<T> &arr) {
+    PBSTree(std::vector<T> &arr) {
+        std::sort(arr.begin(), arr.end());
         this->root = __newTree__(0, arr.size() - 1, arr);
     }
 

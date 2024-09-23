@@ -21,6 +21,18 @@ void Record::__copy__(const Record &other) {
     count_of_line = other.count_of_line;
 }
 
+void Record::__getLastName__(char title[], char *last_name) {
+    int c = 0;
+    int j = 0;
+    for (int k = 0; k < 2; k++) {
+        do {
+            c = title[j++];
+        } while (c != ' ');
+    }
+    for (int i = 0; i < BITE_NUMBER; i++)
+        last_name[i] = title[j++];
+}
+
 Record::Record() : year(0), count_of_line(0) {
     author = new char[AUTOR_LEN];
     title = new char[TITLE_LEN];
@@ -34,6 +46,26 @@ Record::Record(const Record &other) : Record::Record() {
 Record &Record::operator=(const Record &other) {
     __copy__(other);
     return *this;
+}
+
+uint16_t Record::getCountOfRecords() {
+    return COUNT_OF_RECORDS;
+}
+
+uint8_t Record::getAutorLen() {
+    return AUTOR_LEN;
+}
+
+uint8_t Record::getTitleLen() {
+    return TITLE_LEN;
+}
+
+uint8_t Record::getPublishLen() {
+    return PUBLISH_LEN;
+}
+
+uint8_t Record::getBiteNumber() {
+    return BITE_NUMBER;
 }
 
 Record::~Record() {
@@ -67,21 +99,26 @@ void Record::sortRecords(list<Record> &recs) {
         list<Record> Q[count_of_queue];
 
         for (auto &rec : recs) {
-            int c = 0;
-            int j = 0;
-            for (int k = 0; k < 2; k++) {
-                do {
-                    c = rec.title[j++];
-                } while (c != ' ');
-            }
+            char last_name[BITE_NUMBER + 1] = { 0 };
+            __getLastName__(rec.title, last_name);
 
-            int index = std::abs(rec.title[j + i]) % count_of_queue;
+            int index = std::abs(last_name[i]) % count_of_queue;
             Q[index].push_back(rec);
         }
 
         recs.clear();
         for (int j = count_of_queue - 1; j >= 0; j--)
             recs.insert(recs.cend(), Q[j]);
+    }
+}
+
+void Record::searchRecords(const list<Record> &records, queue<Record> &searched_records, char *key) {
+    for (const Record &record : records) {
+        char last_name[BITE_NUMBER + 1] = { 0 };
+        __getLastName__(record.title, last_name);
+
+        if (strcmp(last_name, key) == 0)
+            searched_records.push(record);
     }
 }
 

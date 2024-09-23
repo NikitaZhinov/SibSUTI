@@ -12,4 +12,5 @@ public:
     static void printRecords(const list<Record> &records);
     static void printByPages(const list<Record> &records);
     static void printAll(const list<Record> &records);
+    static void printSearchRecords(const list<Record> &records);
 };

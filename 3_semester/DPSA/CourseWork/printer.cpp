@@ -19,7 +19,7 @@ void Printer::clearConsole() {
 void Printer::printRecords(const list<Record> &records) {
     uint8_t mode = 0;
 
-    SetConsoleCP(1251); // установка кодовой страницы win-cp 1251 в поток ввода
+    SetConsoleCP(866); // установка кодовой страницы win-cp 1251 в поток ввода
 
     do {
         clearConsole();
@@ -28,6 +28,7 @@ void Printer::printRecords(const list<Record> &records) {
         std::println("Выберите режим просмотра:");
         std::println("1 - Просмотр по страницам");
         std::println("2 - Посмотреть все");
+        std::println("3 - Найти записи");
         std::println("0 - Выход");
 
         std::cin >> mode;
@@ -39,6 +40,10 @@ void Printer::printRecords(const list<Record> &records) {
 
             case '2':
                 printAll(records);
+                break;
+
+            case '3':
+                printSearchRecords(records);
                 break;
 
             default:
@@ -95,6 +100,36 @@ void Printer::printAll(const list<Record> &records) {
     SetConsoleOutputCP(866);
     for (const Record &rec : records)
         Record::printRecord(rec);
+    SetConsoleOutputCP(1251);
+    char a = 0;
+    std::println("\n0 - Назад");
+    do {
+        std::cin >> a;
+    } while (a != '0');
+}
+
+void Printer::printSearchRecords(const list<Record> &records) {
+    SetConsoleOutputCP(1251);
+    clearConsole();
+
+    std::print("Введите первые {} буквы фамилии замечательного человека: ", Record::getBiteNumber());
+    std::string key_string;
+    std::cin >> key_string;
+    std::println();
+
+    std::unique_ptr<char> key = std::unique_ptr<char>(new char[Record::getBiteNumber() + 1]);
+    for (int i = 0; i < Record::getBiteNumber() + 1; i++)
+        key.get()[i] = key_string[i];
+
+    queue<Record> searched_records;
+    Record::searchRecords(records, searched_records, key.get());
+
+    SetConsoleOutputCP(866);
+    while (!searched_records.empty()) {
+        Record::printRecord(searched_records.front());
+        searched_records.pop();
+    }
+
     SetConsoleOutputCP(1251);
     char a = 0;
     std::println("\n0 - Назад");
