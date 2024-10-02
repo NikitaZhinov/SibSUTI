@@ -79,27 +79,6 @@ protected:
         return p->value + __getSum__(p->left) + __getSum__(p->right);
     }
 
-    void __add__(const T &val) {
-        if (this->root == nullptr)
-            this->root = new BTreeNode(val);
-        else {
-            BTreeNode<T> *cur = this->root, *pred = nullptr;
-
-            do {
-                pred = cur;
-                if (val < cur->value)
-                    cur = cur->left;
-                else
-                    cur = cur->right;
-            } while (cur != nullptr);
-
-            if (val < pred->value)
-                pred->left = new BTreeNode(val);
-            else
-                pred->right = new BTreeNode(val);
-        }
-    }
-
     static void __getArrayElementsFromLeftToRight__(BTreeNode<T> *p, std::vector<T> &arr) {
         if (p != nullptr) {
             __getArrayElementsFromLeftToRight__(p->left, arr);
@@ -113,6 +92,69 @@ protected:
             arr.push_back(p->value);
             __getArrayElementsFromUpToDown__(p->left, arr);
             __getArrayElementsFromUpToDown__(p->right, arr);
+        }
+    }
+
+    void __remove__(BTreeNode<T> *cur, BTreeNode<T> *prev, const T &value) {
+        if (cur == nullptr)
+            return;
+        if (getSize() == 1) {
+            delete root;
+            root = nullptr;
+            return;
+        }
+
+        if (cur->value != value) {
+            if (cur->value > value)
+                __remove__(cur->left, cur, value);
+            else
+                __remove__(cur->right, cur, value);
+
+        } else {
+            BTreeNode<T> *temp = cur;
+
+            if (cur->right != nullptr) {
+                BTreeNode<T> *cur_left = cur->left;
+                cur = cur->right;
+
+                if (prev != nullptr) {
+                    if (cur->value < prev->value)
+                        prev->left = cur;
+                    else
+                        prev->right = cur;
+                } else
+                    root = cur;
+
+                while (cur->left != nullptr)
+                    cur = cur->left;
+                cur->left = cur_left;
+            } else if (cur->left != nullptr) {
+                BTreeNode<T> *cur_right = cur->right;
+                cur = cur->left;
+
+                if (prev != nullptr) {
+                    if (cur->value < prev->value)
+                        prev->left = cur;
+                    else
+                        prev->right = cur;
+                } else
+                    root = cur;
+
+                while (cur->right != nullptr)
+                    cur = cur->right;
+                cur->right = cur_right;
+            } else {
+                if (cur->value < prev->value)
+                    prev->left = nullptr;
+                else
+                    prev->right = nullptr;
+            }
+
+            /*if (cur == root && cur->left == nullptr && cur->right == nullptr) {
+                delete temp;
+                root = nullptr;
+            } else*/
+                delete temp;
         }
     }
 
@@ -132,6 +174,7 @@ public:
 
     void clear() {
         __removeBranch__(root);
+        root = nullptr;
     }
 
     void printFromUpToDown() {
@@ -166,33 +209,7 @@ public:
     }
 
     void remove(const T &val) {
-        if (this->root == nullptr)
-            return;
-
-        BTreeNode<T> *cur = this->root, *prev = nullptr;
-
-        while (cur->value != val) {
-            prev = cur;
-
-            if (val < cur->value)
-                cur = cur->left;
-            else
-                cur = cur->right;
-
-            if (cur == nullptr)
-                return;
-        }
-
-        if (prev->left->value == cur->value) {
-            prev->left = cur->left;
-            if (cur->left == nullptr)
-                prev->left = cur->right;
-        } else {
-            prev->right = cur->left;
-            if (cur->left == nullptr)
-                prev->right = cur->right;
-        }
-        delete cur;
+        __remove__(root, nullptr, val);
     }
 
     T get(std::size_t index) {
@@ -216,16 +233,48 @@ public:
     virtual void add(const T &) = 0;
 };
 
-// The binary search tree
+// The binary search tree or the random search tree
 template <class T>
 class BTree : public ITree<T> {
+    BTreeNode<T> *__addRecurs__(const T &val, BTreeNode<T> *cur) {
+        if (cur == nullptr)
+            return new BTreeNode<T>(val);
+
+        if (val < cur->value)
+            cur->left = __addRecurs__(val, cur->left);
+        else
+            cur->right = __addRecurs__(val, cur->right);
+        return cur;
+    }
+
 public:
     void add(const T &val) override {
-        this->__add__(val);
+        if (this->root == nullptr)
+            this->root = new BTreeNode(val);
+        else {
+            BTreeNode<T> *cur = this->root, *pred = nullptr;
+
+            do {
+                pred = cur;
+                if (val < cur->value)
+                    cur = cur->left;
+                else
+                    cur = cur->right;
+            } while (cur != nullptr);
+
+            if (val < pred->value)
+                pred->left = new BTreeNode(val);
+            else
+                pred->right = new BTreeNode(val);
+        }
+    }
+
+    void addRecurs(const T &val) {
+        this->root = __addRecurs__(val, this->root);
     }
 };
 
-// The perfectly balanced search tree or the random search tree
+// The perfectly balanced search tree
 template <class T>
 class PBSTree : public ITree<T> {
 private:
@@ -241,7 +290,7 @@ private:
 public:
     PBSTree() = default;
 
-    PBSTree(std::vector<T> &arr) {
+    PBSTree(std::vector<T> arr) {
         std::sort(arr.begin(), arr.end());
         this->root = __newTree__(0, arr.size() - 1, arr);
     }

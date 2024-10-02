@@ -98,7 +98,7 @@ class GraphicsTree {
     static void __veiwTree__(ITree<T> *tree) {
         sf::ContextSettings settings;
         settings.antialiasingLevel = 8;
-        sf::RenderWindow window(sf::VideoMode(800, 600), "Tree", sf::Style::Default, settings);
+        sf::RenderWindow window(sf::VideoMode(1900, 600), "Tree", sf::Style::Default, settings);
 
         std::vector<sf::CircleShape> leafs;
         std::vector<sf::ConvexShape> branches;
@@ -107,6 +107,11 @@ class GraphicsTree {
         float radius = (static_cast<float>(window.getSize().y) / static_cast<float>(tree->getHeight()) - 20.f) / 3.f;
         sf::Font font;
         font.loadFromFile("C:\\Windows\\Fonts\\arial.ttf");
+
+        sf::RectangleShape background(sf::Vector2f(window.getSize().x, window.getSize().y));
+        sf::Texture background_texture;
+        background_texture.loadFromFile("tree.jpg");
+        background.setTexture(&background_texture);
 
         TreeSettings sett = { tree->root, radius, 0, window.getSize().x, 10 };
         __initLeafs__(leafs, sett);
@@ -120,6 +125,8 @@ class GraphicsTree {
                     window.close();
 
             window.clear(sf::Color::White);
+
+            window.draw(background);
 
             for (sf::ConvexShape &branch : branches)
                 window.draw(branch);

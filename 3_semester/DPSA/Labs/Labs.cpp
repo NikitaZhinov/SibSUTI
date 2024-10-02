@@ -2,6 +2,7 @@
 #include "GraphicsTree.h"
 
 #include <random>
+#include <iostream>
 
 void lab1() {
     BTree<int> tree;
@@ -69,13 +70,36 @@ void lab3() {
     std::println("    PBST |{:5} |{:4} |{:7} |{:14}", PBSTree.getSize(), PBSTree.getSum(), PBSTree.getHeight(), PBSTree.getMediumHeight());
     std::println("     RST |{:5} |{:4} |{:7} |{:14}", RSTree.getSize(), RSTree.getSum(), RSTree.getHeight(), RSTree.getMediumHeight());
 
+    RSTree.clear();
+    for (int i = 0; i < 100; i++)
+        RSTree.addRecurs(arr[i]);
+
+    std::println("     RST |{:5} |{:4} |{:7} |{:14}", RSTree.getSize(), RSTree.getSum(), RSTree.getHeight(), RSTree.getMediumHeight());
+
     GraphicsTree<int>::veiwTree({ &RSTree, &PBSTree });
+}
+
+void lab4() {
+    BTree<int> RSTree;
+    std::vector<int> arr(10);
+
+    for (int &elem : arr) {
+        std::cin >> elem;
+        RSTree.add(elem);
+    }
+
+    RSTree.printFromLeftToRight();
+    for (int elem : arr) {
+        RSTree.remove(elem);
+        RSTree.printFromLeftToRight();
+    }
 }
 
 int main() {
     // lab1();
     // lab2();
-    lab3();
+    // lab3();
+    lab4();
 
     return 0;
 }
