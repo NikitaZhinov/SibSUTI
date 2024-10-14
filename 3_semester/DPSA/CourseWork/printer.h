@@ -9,8 +9,8 @@ class Printer {
     static void clearConsole();
 
 public:
-    static void printRecords(const list<Record> &records);
-    static void printByPages(const list<Record> &records);
-    static void printAll(const list<Record> &records);
-    static void printSearchRecords(const list<Record> &records);
+    static void printRecords(RecordList &records);
+    static void printByPages(const RecordList &records);
+    static void printAll(const RecordList &records);
+    static void printSearchRecords(RecordList &records);
 };

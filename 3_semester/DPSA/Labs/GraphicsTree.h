@@ -11,7 +11,7 @@
 template <class T>
 class GraphicsTree {
     struct TreeSettings {
-        BTreeNode<T> *p;
+        TreeNode<T> *p;
         float radius;
         std::size_t left_x, right_x, y;
     };

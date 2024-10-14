@@ -750,79 +750,25 @@ public:
      */
     template <class Compare>
     void sort(Compare comp) {
-        if (this->empty() || size_ == 1) return;
+        if (size_ <= 1) return;
 
-        list a, b, c0, c1;
+        list a, b;
 
-        // split
-        bool f = true;
-        for (Type elem : *this) {
-            if (f)
-                a.push_back(elem);
-            else
-                b.push_back(elem);
-            f = !f;
+        iterator it = this->begin();
+        for (std::size_t i = 0; i < size_ / 2; i++) {
+            a.push_back(*it);
+            it++;
+        }
+        while (it != this->end()) {
+            b.push_back(*it);
+            it++;
         }
 
-        size_type size_list = 1, size_a = 0, size_b = 0;
-        while (size_list < size_) {
-            c0.clear();
-            c1.clear();
+        a.sort();
+        b.sort();
 
-            int i = 0;
-            size_type m = size_;
-            while (m > 0) {
-                if (m >= size_list)
-                    size_a = size_list;
-                else
-                    size_a = m;
-                m -= size_a;
-                if (m >= size_list)
-                    size_b = size_list;
-                else
-                    size_b = m;
-                m -= size_b;
-
-                list c = std::move(i == 0 ? c0 : c1);
-
-                // merge
-                iterator it_a = a.begin(), it_b = b.begin();
-                while (size_a > 0 && size_b > 0) {
-                    if (comp(*it_a, *it_b)) {
-                        c.push_back(*it_a);
-                        it_a++;
-                        size_a--;
-                    } else {
-                        c.push_back(*it_b);
-                        it_b++;
-                        size_b--;
-                    }
-                }
-                while (size_a > 0) {
-                    c.push_back(*it_a);
-                    it_a++;
-                    size_a--;
-                }
-                while (size_b > 0) {
-                    c.push_back(*it_b);
-                    it_b++;
-                    size_b--;
-                }
-
-                if (i == 0)
-                    c0 = std::move(c);
-                else
-                    c1 = std::move(c);
-
-                i = 1 - i;
-            }
-
-            a = std::move(c0);
-            b = std::move(c1);
-            size_list *= 2;
-        }
-
-        *this = std::move(c0);
+        a.merge(b, comp);
+        *this = std::move(a);
     }
 
     /**

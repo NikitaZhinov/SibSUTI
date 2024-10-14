@@ -5,7 +5,7 @@
 #include <iostream>
 
 void lab1() {
-    BTree<int> tree;
+    RSTree<int> tree;
     tree.add(1);
     tree.add(3);
     tree.add(2);
@@ -56,7 +56,7 @@ void lab3() {
     for (int i = 0; i < 100; i++)
         arr.push_back(dis(gen));
 
-    BTree<int> RSTree;
+    RSTree<int> RSTree;
     for (int i = 0; i < 100; i++)
         RSTree.add(arr[i]);
 
@@ -80,7 +80,7 @@ void lab3() {
 }
 
 void lab4() {
-    BTree<int> RSTree;
+    RSTree<int> RSTree;
     std::vector<int> arr(10);
 
     for (int &elem : arr) {
@@ -89,17 +89,49 @@ void lab4() {
     }
 
     RSTree.printFromLeftToRight();
+    //GraphicsTree<int>::veiwTree({ &RSTree });
+
     for (int elem : arr) {
         RSTree.remove(elem);
         RSTree.printFromLeftToRight();
+        // GraphicsTree<int>::veiwTree({ &RSTree });
     }
+}
+
+void lab5() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(-100, 100);
+
+    AVLTree<int> avl_tree;
+    PBSTree<int> pbs_tree;
+    std::vector<int> arr;
+
+    for (int i = 0; i < 100; i++)
+        arr.push_back(dis(gen));
+
+    for (int &elem : arr) {
+        avl_tree.add(elem);
+        pbs_tree.add(elem);
+    }
+
+    std::print("From left to right: ");
+    avl_tree.printFromLeftToRight();
+
+    std::println("\n n = 100 | Size | Sum | Height | Medium Height");
+
+    std::println("     PBS |{:5} |{:4} |{:7} |{:14}", pbs_tree.getSize(), pbs_tree.getSum(), pbs_tree.getHeight(), pbs_tree.getMediumHeight());
+    std::println("     AVL |{:5} |{:4} |{:7} |{:14}", avl_tree.getSize(), avl_tree.getSum(), avl_tree.getHeight(), avl_tree.getMediumHeight());
+
+    GraphicsTree<int>::veiwTree({ &avl_tree, &pbs_tree });
 }
 
 int main() {
     // lab1();
     // lab2();
     // lab3();
-    lab4();
+    // lab4();
+    lab5();
 
     return 0;
 }

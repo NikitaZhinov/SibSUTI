@@ -6,7 +6,7 @@
 #include <Windows.h>
 
 const uint8_t Printer::COUNT_LINE_OF_PAGE = 20;
-const uint16_t Printer::MAX_PAGE = Record::getCountRecords() / Printer::COUNT_LINE_OF_PAGE;
+const uint16_t Printer::MAX_PAGE = Record::COUNT_OF_RECORDS / Printer::COUNT_LINE_OF_PAGE;
 
 void Printer::clearConsole() {
 #if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__)
@@ -16,20 +16,20 @@ void Printer::clearConsole() {
 #endif
 }
 
-void Printer::printRecords(const list<Record> &records) {
+void Printer::printRecords(RecordList &records) {
     uint8_t mode = 0;
 
-    SetConsoleCP(866); // óñòàíîâêà êîäîâîé ñòðàíèöû win-cp 1251 â ïîòîê ââîäà
+    SetConsoleCP(866); // ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° ÐºÐ¾Ð´Ð¾Ð²Ð¾Ð¹ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñ‹ win-cp 866 Ð² Ð¿Ð¾Ñ‚Ð¾Ðº Ð²Ð²Ð¾Ð´Ð°
 
     do {
         clearConsole();
-        SetConsoleOutputCP(1251); // óñòàíîâêà êîäîâîé ñòðàíèöû win-cp 1251 â ïîòîê âûâîäà
+        SetConsoleOutputCP(65001); // ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° ÐºÐ¾Ð´Ð¾Ð²Ð¾Ð¹ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñ‹ win-cp 65001 Ð² Ð¿Ð¾Ñ‚Ð¾Ðº Ð²Ñ‹Ð²Ð¾Ð´Ð°
 
-        std::println("Âûáåðèòå ðåæèì ïðîñìîòðà:");
-        std::println("1 - Ïðîñìîòð ïî ñòðàíèöàì");
-        std::println("2 - Ïîñìîòðåòü âñå");
-        std::println("3 - Íàéòè çàïèñè");
-        std::println("0 - Âûõîä");
+        std::println("Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ñ€ÐµÐ¶Ð¸Ð¼ Ð¿Ñ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€Ð°:");
+        std::println("1 - ÐŸÑ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€ Ð¿Ð¾ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ð°Ð¼");
+        std::println("2 - ÐŸÐ¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ð²ÑÐµ");
+        std::println("3 - ÐÐ°Ð¹Ñ‚Ð¸ Ð·Ð°Ð¿Ð¸ÑÐ¸");
+        std::println("0 - Ð’Ñ‹Ñ…Ð¾Ð´");
 
         std::cin >> mode;
 
@@ -52,7 +52,7 @@ void Printer::printRecords(const list<Record> &records) {
     } while (mode != '0');
 }
 
-void Printer::printByPages(const list<Record> &records) {
+void Printer::printByPages(const RecordList &records) {
     uint8_t mode = 0;
     uint16_t page = 0;
 
@@ -60,7 +60,7 @@ void Printer::printByPages(const list<Record> &records) {
         clearConsole();
         SetConsoleOutputCP(866);
 
-        auto start_it = records.begin();
+        auto start_it = records.getRecordList().begin();
         for (uint16_t i = 0; i < page * COUNT_LINE_OF_PAGE; i++)
             start_it++;
         auto end_it = start_it;
@@ -70,11 +70,11 @@ void Printer::printByPages(const list<Record> &records) {
             Record::printRecord(*it);
         std::println("{}/{}\n", page + 1, MAX_PAGE);
 
-        SetConsoleOutputCP(1251);
+        SetConsoleOutputCP(65001);
 
-        std::println("1 - Ñëåäóþùàÿ ñòðàíèöà");
-        std::println("2 - Ïðåäûäóùàÿ ñòðàíèöà");
-        std::println("0 - Íàçàä");
+        std::println("1 - Ð¡Ð»ÐµÐ´ÑƒÑŽÑ‰Ð°Ñ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ð°");
+        std::println("2 - ÐŸÑ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰Ð°Ñ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ð°");
+        std::println("0 - ÐÐ°Ð·Ð°Ð´");
 
         std::cin >> mode;
 
@@ -96,33 +96,29 @@ void Printer::printByPages(const list<Record> &records) {
     } while (mode != '0');
 }
 
-void Printer::printAll(const list<Record> &records) {
+void Printer::printAll(const RecordList &records) {
     SetConsoleOutputCP(866);
-    for (const Record &rec : records)
+    for (const Record &rec : records.getRecordList())
         Record::printRecord(rec);
-    SetConsoleOutputCP(1251);
+    SetConsoleOutputCP(65001);
     char a = 0;
-    std::println("\n0 - Íàçàä");
+    std::println("\n0 - ÐÐ°Ð·Ð°Ð´");
     do {
         std::cin >> a;
     } while (a != '0');
 }
 
-void Printer::printSearchRecords(const list<Record> &records) {
-    SetConsoleOutputCP(1251);
+void Printer::printSearchRecords(RecordList &records) {
+    SetConsoleOutputCP(65001);
     clearConsole();
 
-    std::print("Ââåäèòå ïåðâûå {} áóêâû ôàìèëèè çàìå÷àòåëüíîãî ÷åëîâåêà: ", Record::getBiteNumber());
-    std::string key_string;
-    std::cin >> key_string;
+    std::print("Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¿ÐµÑ€Ð²Ñ‹Ðµ {} Ð±ÑƒÐºÐ²Ñ‹ Ñ„Ð°Ð¼Ð¸Ð»Ð¸Ð¸ Ð·Ð°Ð¼ÐµÑ‡Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð³Ð¾ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ°: ", Record::BITE_NUMBER);
+    std::string key;
+    std::cin >> key;
     std::println();
 
-    std::unique_ptr<char> key = std::unique_ptr<char>(new char[Record::getBiteNumber() + 1]);
-    for (int i = 0; i < Record::getBiteNumber() + 1; i++)
-        key.get()[i] = key_string[i];
-
     queue<Record> searched_records;
-    Record::searchRecords(records, searched_records, key.get());
+    records.search(searched_records, key.c_str());
 
     SetConsoleOutputCP(866);
     while (!searched_records.empty()) {
@@ -130,9 +126,9 @@ void Printer::printSearchRecords(const list<Record> &records) {
         searched_records.pop();
     }
 
-    SetConsoleOutputCP(1251);
+    SetConsoleOutputCP(65001);
     char a = 0;
-    std::println("\n0 - Íàçàä");
+    std::println("\n0 - ÐÐ°Ð·Ð°Ð´");
     do {
         std::cin >> a;
     } while (a != '0');

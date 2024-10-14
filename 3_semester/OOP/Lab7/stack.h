@@ -3,113 +3,44 @@
 #include "list.h"
 
 template <typename Type>
-class stack {
+class stack : private list<Type> {
 public:
 	typedef Type value_type;
 	typedef std::size_t size_type;
 	typedef value_type& reference;
 	typedef const value_type& const_reference;
 
-protected:
-	list<value_type> container;
-
 public:
-	/**
-	 * @brief Default constructor. Value-initializes the container.
-	 */
-	stack() : container() {}
+	stack() = default;
 
-	/**
-	 * @brief Copy constructor.
-	 *
-	 * @param other - Another container adaptor to be used as source to initialize
-	 * the underlying container.
-	 */
-	stack(const stack& other) : container(other.container) {}
+	stack(const stack& other) { this->__copy__(other); }
 
-	/**
-	 * @brief Move constructor.
-	 *
-	 * @param other - Another container adaptor to be used as source to initialize
-	 * the underlying container.
-	 */
-	stack(stack&& other) noexcept : container(std::move(other.container)) {}
+	stack(stack&& other) noexcept { this->__move__(std::move(other)); }
 
-	/**
-	 * @brief Copy assignment operator. Replaces the contents with a copy of the
-	 * contents of other.
-	 *
-	 * @param other - Another container adaptor to be used as source to initialize
-	 * the underlying container.
-	 */
 	stack& operator=(const stack& other) {
-		container = other.container;
+		this->__copy__(other);
 		return *this;
 	}
 
-	/**
-	 * @brief Move assignment operator. Replaces the contents with those of other
-	 * using move semantics.
-	 *
-	 * @param other - Another container adaptor to be used as source to initialize
-	 * the underlying container.
-	 */
 	stack& operator=(stack&& other) noexcept {
-		container = std::move(other.container);
+		this->__move__(std::move(other));
 		return *this;
 	}
 
-	/**
-	 * @brief Returns reference to the top element in the stack.
-	 *
-	 * @return Reference to the last element.
-	 */
-	reference top() { return container.back(); }
-
-	/**
-	 * @brief Returns reference to the top element in the stack.
-	 *
-	 * @return Reference to the last element.
-	 */
-	const_reference top() const { return container.back(); }
-
-	/**
-	 * @brief Checks if the underlying container has no elements.
-	 *
-	 * @return True if the underlying container is empty, false otherwise.
-	 */
-	bool empty() const { return container.empty(); }
-
-
-	/**
-	 * @brief Returns the number of elements in the container adaptor.
-	 *
-	 * @return The number of elements in the container adaptor.
-	 */
-	size_type size() const { return container.size(); }
-
-	/**
-	 * @brief Pushes the given element value to the top of the stack.
-	 *
-	 * @param value - The value of the element to push.
-	 */
-	void push(const value_type& value) { container.push_back(value); }
-
-	/**
-	 * @brief Removes the top element from the stack.
-	 */
-	void pop() { container.pop_back(); }
-
-	/**
-	 * @brief Exchanges the contents of the container adaptor with those of other.
-	 *
-	 * @param other - Container adaptor to exchange the contents with.
-	 */
-	void swap(stack& other) noexcept { container.swap(other.container); }
-
-	template <class... Args>
-	void insert_many_front(Args &&...args) {
-		container.insert_many_front(args...);
+	reference top() {
+		return list<Type>::back();
 	}
+
+	const_reference top() const { return list<Type>::back(); }
+
+	bool empty() const { return list<Type>::empty(); }
+
+	size_type size() const { return list<Type>::size(); }
+
+	void push(const value_type& value) { this->push_back(value); }
+
+	void pop() { this->pop_back(); }
+
+	void swap(stack& other) noexcept { list<Type>::swap(other); }
 };
 
