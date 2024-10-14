@@ -2,8 +2,7 @@
 
 #include "list.h"
 
-template <typename Type>
-class stack : private list<Type> {
+template <typename Type> class stack : private list<Type> {
 public:
 	typedef Type value_type;
 	typedef std::size_t size_type;
@@ -27,9 +26,7 @@ public:
 		return *this;
 	}
 
-	reference top() {
-		return list<Type>::back();
-	}
+	reference top() { return list<Type>::back(); }
 
 	const_reference top() const { return list<Type>::back(); }
 
@@ -37,10 +34,14 @@ public:
 
 	size_type size() const { return list<Type>::size(); }
 
+	static size_type max_size() { return max_size(); }
+
 	void push(const value_type& value) { this->push_back(value); }
 
 	void pop() { this->pop_back(); }
 
-	void swap(stack& other) noexcept { list<Type>::swap(other); }
+	void swap(stack& other) noexcept { list<Type>::swap(*this, other); }
+
+	static void swap(stack& left, stack& right) noexcept { list<Type>::swap(left, right); }
 };
 

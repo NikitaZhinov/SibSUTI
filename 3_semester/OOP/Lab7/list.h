@@ -3,16 +3,14 @@
 #include <algorithm>
 #include <limits>
 
-template <class Type>
-struct _List_node {
+template <class Type> struct _List_node {
 	_List_node* next_, * prev_;
 	Type value_;
 
 	_List_node(const Type& value) : next_(nullptr), prev_(nullptr), value_(value) {}
 };
 
-template <class Type>
-struct _List_iterator {
+template <class Type> struct _List_iterator {
 	using _self = _List_iterator<Type>;
 	using _node = _List_node<Type>;
 	using pointer = Type*;
@@ -29,13 +27,9 @@ struct _List_iterator {
 
 	_self __const_cast__() const noexcept { return *this; }
 
-	reference operator*() const noexcept {
-		return current == nullptr ? last->value_ : current->value_;
-	}
+	reference operator*() const noexcept { return current == nullptr ? last->value_ : current->value_; }
 
-	pointer operator->() const noexcept {
-		return current == nullptr ? &last->value_ : &current->value_;
-	}
+	pointer operator->() const noexcept { return current == nullptr ? &last->value_ : &current->value_; }
 
 	_self& operator++() noexcept {
 		current = current->next_;
@@ -59,17 +53,12 @@ struct _List_iterator {
 		return tmp;
 	}
 
-	friend bool operator==(const _self& left, const _self& right) noexcept {
-		return left.current == right.current;
-	}
+	friend bool operator==(const _self& left, const _self& right) noexcept { return left.current == right.current; }
 
-	friend bool operator!=(const _self& left, const _self& right) noexcept {
-		return left.current != right.current;
-	}
+	friend bool operator!=(const _self& left, const _self& right) noexcept { return left.current != right.current; }
 };
 
-template <class Type>
-struct _List_const_iterator {
+template <class Type> struct _List_const_iterator {
 	using _self = _List_const_iterator<Type>;
 	using _node = const _List_node<Type>;
 	using interator = _List_iterator<Type>;
@@ -81,26 +70,17 @@ struct _List_const_iterator {
 
 	_List_const_iterator() noexcept : current(nullptr), last(nullptr) {}
 
-	_List_const_iterator(_node* pointer) noexcept
-		: current(pointer), last(nullptr) {}
+	_List_const_iterator(_node* pointer) noexcept : current(pointer), last(nullptr) {}
 
-	_List_const_iterator(_node* pointer, _node* pointer_of_last) noexcept
-		: current(pointer), last(pointer_of_last) {}
+	_List_const_iterator(_node* pointer, _node* pointer_of_last) noexcept : current(pointer), last(pointer_of_last) {}
 
-	_List_const_iterator(const interator& it) noexcept
-		: current(it.current), last(it.last) {}
+	_List_const_iterator(const interator& it) noexcept : current(it.current), last(it.last) {}
 
-	interator __const_cast__() const noexcept {
-		return interator(const_cast<_List_node<Type> *>(current));
-	}
+	interator __const_cast__() const noexcept { return interator(const_cast<_List_node<Type> *>(current)); }
 
-	Type operator*() const noexcept {
-		return current == nullptr ? last->value_ : current->value_;
-	}
+	Type operator*() const noexcept { return current == nullptr ? last->value_ : current->value_; }
 
-	pointer operator->() const noexcept {
-		return static_cast<const pointer>(&(*this->__const_cast__()));
-	}
+	pointer operator->() const noexcept { return static_cast<const pointer>(&(*this->__const_cast__())); }
 
 	_self& operator++() noexcept {
 		current = current->next_;
@@ -124,17 +104,12 @@ struct _List_const_iterator {
 		return tmp;
 	}
 
-	friend bool operator==(const _self& left, const _self& right) noexcept {
-		return left.current == right.current;
-	}
+	friend bool operator==(const _self& left, const _self& right) noexcept { return left.current == right.current; }
 
-	friend bool operator!=(const _self& left, const _self& right) noexcept {
-		return left.current != right.current;
-	}
+	friend bool operator!=(const _self& left, const _self& right) noexcept { return left.current != right.current; }
 };
 
-template <class Type>
-class list {
+template <class Type> class list {
 public:
 	using size_type = std::size_t;
 	using value_type = Type;
@@ -151,7 +126,7 @@ protected:
 	_node* first_, * last_;
 	size_type size_;
 
-	void __copy__(const list& other) noexcept {
+	void __copy__(const list& other) {
 		clear();
 		if (other.first_ != nullptr)
 			for (const_reference elem : other) push_back(elem);
@@ -210,13 +185,9 @@ public:
 
 	const_iterator end() const { return const_iterator(nullptr, last_); }
 
-	const_iterator cend() const noexcept {
-		return const_iterator(nullptr, last_);
-	}
+	const_iterator cend() const noexcept { return const_iterator(nullptr, last_); }
 
-	void clear() {
-		while (size_ > 0) pop_back();
-	}
+	void clear() { while (size_ > 0) pop_back(); }
 
 	void push_back(const value_type& value) { insert(end(), value); }
 
@@ -240,27 +211,18 @@ public:
 
 	reference front() { return first_->value_; }
 
-	const_reference front() const {
-		return static_cast<const_reference>(first_->value_);
-	}
+	const_reference front() const { return static_cast<const_reference>(first_->value_); }
 
 	reference back() { return last_->value_; }
 
-	const_reference back() const {
-		return static_cast<const_reference>(last_->value_);
-	}
+	const_reference back() const { return static_cast<const_reference>(last_->value_); }
 
 	iterator insert(const_iterator pos, const value_type& value) {
 		_node* new_item;
-		try {
-			new_item = new _node(value);
-		}
-		catch (std::bad_alloc& ba) {
-			throw ba.what();
-		}
+		try { new_item = new _node(value); }
+		catch (std::bad_alloc& ba) { throw ba.what(); }
 
-		if (size_ == 0)
-			first_ = last_ = new_item;
+		if (size_ == 0) first_ = last_ = new_item;
 		else if (pos == begin()) {
 			new_item->next_ = first_;
 			first_->prev_ = new_item;
@@ -313,8 +275,7 @@ public:
 
 	iterator erase(const_iterator pos) {
 		_node* res = nullptr;
-		if (size_ == 0)
-			throw std::underflow_error("The list is empty!");
+		if (size_ == 0)	throw std::underflow_error("The list is empty!");
 		else if (size_ == 1) {
 			delete first_;
 			first_ = last_ = nullptr;
@@ -350,33 +311,23 @@ public:
 		return res;
 	}
 
-	size_type max_size() const {
-		return static_cast<size_type>((std::numeric_limits<size_type>::max)()) /
-			sizeof(_node) /
+	static size_type max_size() {
+		return static_cast<size_type>((std::numeric_limits<size_type>::max)()) / sizeof(_node) /
 #if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__)
-			1;
+			1
 #else
-			2;
+			2
 #endif
+			;
 	}
 
-	void merge(list& other) {
-		merge(std::move(other),
-			[](const value_type& a, const value_type& b) { return a <= b; });
-	}
+	void merge(list& other) { merge(std::move(other), [](const value_type& a, const value_type& b) { return a <= b; }); }
 
-	void merge(list&& other) {
-		merge(std::move(other),
-			[](const value_type& a, const value_type& b) { return a <= b; });
-	}
+	void merge(list&& other) { merge(std::move(other), [](const value_type& a, const value_type& b) { return a <= b; }); }
 
-	template <class Compare>
-	void merge(list& other, Compare comp) {
-		merge(std::move(other), comp);
-	}
+	template <class Compare> void merge(list& other, Compare comp) { merge(std::move(other), comp); }
 
-	template <class Compare>
-	void merge(list&& other, Compare comp) {
+	template <class Compare> void merge(list&& other, Compare comp) {
 		if (first_ == other.first_) return;
 
 		list result;
@@ -408,12 +359,9 @@ public:
 		*this = std::move(result);
 	}
 
-	size_type remove(const value_type& value) {
-		return remove_if([&](const value_type& val) { return val == value; });
-	}
+	size_type remove(const value_type& value) { return remove_if([&](const value_type& val) { return val == value; }); }
 
-	template <class UnaryPredicate>
-	size_type remove_if(UnaryPredicate p) {
+	template <class UnaryPredicate>	size_type remove_if(UnaryPredicate p) {
 		size_type n = 0;
 		_node* cur = first_;
 		while (cur != nullptr) {
@@ -422,9 +370,8 @@ public:
 				cur = cur->next_;
 				erase(iterator(del));
 				n++;
-				continue;
 			}
-			cur = cur->next_;
+			else cur = cur->next_;
 		}
 		return n;
 	}
@@ -455,22 +402,23 @@ public:
 
 	size_type size() const noexcept { return size_; }
 
-	void sort() {
-		sort([](const_reference a, const_reference b) { return a <= b; });
-	}
+	void sort() { sort(*this, [](const_reference a, const_reference b) { return a <= b; }); }
 
-	template <class Compare>
-	void sort(Compare comp) {
-		if (size_ <= 1) return;
+	template <class Compare> void sort(Compare comp) { sort(*this, [](const_reference a, const_reference b) { return a <= b; }); }
+
+	static void sort(list& l) { sort(l, [](const_reference a, const_reference b) { return a <= b; }); }
+
+	template <class Compare> static void sort(list& l, Compare comp) {
+		if (l.size_ <= 1) return;
 
 		list a, b;
 
-		iterator it = this->begin();
-		for (std::size_t i = 0; i < size_ / 2; i++) {
+		iterator it = l.begin();
+		for (std::size_t i = 0; i < l.size_ / 2; i++) {
 			a.push_back(*it);
 			it++;
 		}
-		while (it != this->end()) {
+		while (it != l.end()) {
 			b.push_back(*it);
 			it++;
 		}
@@ -479,7 +427,7 @@ public:
 		b.sort();
 
 		a.merge(b, comp);
-		*this = std::move(a);
+		l = std::move(a);
 	}
 
 	void splice(const_iterator pos, list& other) {
@@ -494,43 +442,41 @@ public:
 		other.erase(it);
 	}
 
-	void splice(const_iterator pos, list&& other, const_iterator it) {
-		splice(pos, other, it);
-	}
+	void splice(const_iterator pos, list&& other, const_iterator it) { splice(pos, other, it); }
 
 	void splice(const_iterator pos, list& other, const_iterator first, const_iterator last) {
 		insert(pos, first.__const_cast__(), last.__const_cast__());
 		other.erase(first, last);
 	}
 
-	void splice(const_iterator pos, list&& other, const_iterator first, const_iterator last) {
-		splice(pos, other, first, last);
-	}
+	void splice(const_iterator pos, list&& other, const_iterator first, const_iterator last) { splice(pos, other, first, last); }
 
 	void swap(list& right) noexcept {
-		list temp = std::move(*this);
-		*this = std::move(right);
+		swap(*this, right);
+	}
+
+	static void swap(list& left, list& right) noexcept {
+		list temp = std::move(left);
+		left = std::move(right);
 		right = std::move(temp);
 	}
 
-	size_type unique() {
-		return unique(
-			[](const value_type& a, const value_type& b) { return a == b; });
-	}
+	size_type unique() { return unique(*this, [](const value_type& a, const value_type& b) { return a == b; }); }
 
-	template <class BinaryPredicate>
-	size_type unique(BinaryPredicate p) {
+	template <class BinaryPredicate> size_type unique(BinaryPredicate p) { return unique(*this, p); }
+
+	static size_type unique(list& l) { return unique(l, [](const value_type& a, const value_type& b) { return a == b; }); }
+
+	template <class BinaryPredicate> static size_type unique(list& l, BinaryPredicate p) {
 		list temp;
 		size_type n = 0;
 
 		auto is_exist = [&](const value_type& elem) {
-			for (value_type& e : temp)
-				if (p(e, elem)) return true;
+			for (value_type& e : temp) if (p(e, elem)) return true;
 			return false;
 			};
 
-		for (value_type& elem : *this)
-			if (!is_exist(elem)) temp.push_back(elem);
+		for (value_type& elem : *this) if (!is_exist(elem)) temp.push_back(elem);
 		*this = std::move(temp);
 
 		return n;

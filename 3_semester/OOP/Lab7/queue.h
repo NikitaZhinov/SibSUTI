@@ -2,8 +2,7 @@
 
 #include "list.h"
 
-template <typename Type>
-class queue : private list<Type> {
+template <typename Type> class queue : private list<Type> {
 public:
 	typedef Type value_type;
 	typedef std::size_t size_type;
@@ -27,9 +26,7 @@ public:
 		return *this;
 	}
 
-	reference front() {
-		return list<Type>::front();
-	}
+	reference front() { return list<Type>::front(); }
 
 	const_reference front() const { return list<Type>::front(); }
 
@@ -41,9 +38,13 @@ public:
 
 	size_type size() const { return list<Type>::size(); }
 
+	static size_type max_size() { return max_size(); }
+
 	void push(const value_type& value) { this->push_back(value); }
 
 	void pop() { this->pop_front(); }
 
 	void swap(queue& other) noexcept { list<Type>::swap(other); }
+
+	static void swap(queue& left, queue& right) noexcept { list<Type>::swap(left, right); }
 };
