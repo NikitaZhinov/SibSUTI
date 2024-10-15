@@ -56,45 +56,45 @@ void lab3() {
     for (int i = 0; i < 100; i++)
         arr.push_back(dis(gen));
 
-    RSTree<int> RSTree;
+    RSTree<int> rs_tree;
     for (int i = 0; i < 100; i++)
-        RSTree.add(arr[i]);
+        rs_tree.add(arr[i]);
 
-    PBSTree<int> PBSTree(arr);
+    PBSTree<int> pbs_tree(arr);
 
     std::print("From left to right: ");
-    RSTree.printFromLeftToRight();
+    rs_tree.printFromLeftToRight();
 
     std::println("\n n = 100 | Size | Sum | Height | Medium Height");
 
-    std::println("    PBST |{:5} |{:4} |{:7} |{:14}", PBSTree.getSize(), PBSTree.getSum(), PBSTree.getHeight(), PBSTree.getMediumHeight());
-    std::println("     RST |{:5} |{:4} |{:7} |{:14}", RSTree.getSize(), RSTree.getSum(), RSTree.getHeight(), RSTree.getMediumHeight());
+    std::println("    PBST |{:5} |{:4} |{:7} |{:14}", pbs_tree.getSize(), pbs_tree.getSum(), pbs_tree.getHeight(), pbs_tree.getMediumHeight());
+    std::println("     RST |{:5} |{:4} |{:7} |{:14}", rs_tree.getSize(), rs_tree.getSum(), rs_tree.getHeight(), rs_tree.getMediumHeight());
 
-    RSTree.clear();
+    rs_tree.clear();
     for (int i = 0; i < 100; i++)
-        RSTree.addRecurs(arr[i]);
+        rs_tree.addRecurs(arr[i]);
 
-    std::println("     RST |{:5} |{:4} |{:7} |{:14}", RSTree.getSize(), RSTree.getSum(), RSTree.getHeight(), RSTree.getMediumHeight());
+    std::println("     RST |{:5} |{:4} |{:7} |{:14}", rs_tree.getSize(), rs_tree.getSum(), rs_tree.getHeight(), rs_tree.getMediumHeight());
 
-    GraphicsTree<int>::veiwTree({ &RSTree, &PBSTree });
+    GraphicsTree<int>::veiwTree({ &rs_tree, &pbs_tree });
 }
 
 void lab4() {
-    RSTree<int> RSTree;
+    RSTree<int> tree;
     std::vector<int> arr(10);
 
     for (int &elem : arr) {
         std::cin >> elem;
-        RSTree.add(elem);
+        tree.add(elem);
     }
 
-    RSTree.printFromLeftToRight();
-    //GraphicsTree<int>::veiwTree({ &RSTree });
+    tree.printFromLeftToRight();
+    // GraphicsTree<int>::veiwTree({ &tree });
 
     for (int elem : arr) {
-        RSTree.remove(elem);
-        RSTree.printFromLeftToRight();
-        // GraphicsTree<int>::veiwTree({ &RSTree });
+        tree.remove(elem);
+        tree.printFromLeftToRight();
+        // GraphicsTree<int>::veiwTree({ &tree });
     }
 }
 
@@ -126,12 +126,32 @@ void lab5() {
     GraphicsTree<int>::veiwTree({ &avl_tree, &pbs_tree });
 }
 
+void lab6() {
+    AVLTree<int> tree;
+    std::vector<int> arr(10);
+
+    for (int &elem : arr) {
+        std::cin >> elem;
+        tree.add(elem);
+    }
+
+    tree.printFromLeftToRight();
+    GraphicsTree<int>::veiwTree({ &tree });
+
+    for (int elem : arr) {
+        tree.remove(elem);
+        tree.printFromLeftToRight();
+        GraphicsTree<int>::veiwTree({ &tree });
+    }
+}
+
 int main() {
     // lab1();
     // lab2();
     // lab3();
     // lab4();
-    lab5();
+    // lab5();
+    lab6();
 
     return 0;
 }

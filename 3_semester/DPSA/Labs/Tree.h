@@ -402,11 +402,107 @@ class AVLTree : public ITree<T> {
         return p;
     }
 
+    TreeNode<T> *RR1Turn(TreeNode<T> *p, bool &umen) {
+        TreeNode<T> *q = p->right;
+        if (q->balance == 0) {
+            q->balance = -1;
+            p->balance = 1;
+            umen = false;
+        } else {
+            q->balance = 0;
+            p->balance = 0;
+        }
+        p->right = q->left;
+        q->left = p;
+        p = q;
+        return p;
+    }
+
+    TreeNode<T> *LL1Turn(TreeNode<T> *p, bool &umen) {
+        TreeNode<T> *q = p->left;
+        if (q->balance == 0) {
+            q->balance = 1;
+            p->balance = -1;
+            umen = false;
+        } else {
+            q->balance = 0;
+            p->balance = 0;
+        }
+        p->left = q->right;
+        q->right = p;
+        p = q;
+        return p;
+    }
+
+    TreeNode<T> *BL(TreeNode<T> *p, bool &umen) {
+        if (p->balance == -1) p->balance = 0;
+        else if (p->balance == 0) {
+            p->balance = 1;
+            umen = false;
+        } else if (p->balance == 1) {
+            if (p->right->balance >= 0) p = RR1Turn(p, umen);
+            else p = RLTurn(p);
+        }
+        return p;
+    }
+
+    TreeNode<T> *BR(TreeNode<T> *p, bool &umen) {
+        if (p->balance == 1) p->balance = 0;
+        else if (p->balance == 0) {
+            p->balance = -1;
+            umen = false;
+        } else if (p->balance == -1) {
+            if (p->left->balance <= 0) p = LL1Turn(p, umen);
+            else p = LRTurn(p);
+        }
+        return p;
+    }
+
+    void del(TreeNode<T> **p, TreeNode<T> **q, bool &umen) {
+        if ((*p)->right != nullptr) {
+            del(&(*p)->right, q, umen);
+            if (umen) *p = BR(*p, umen);
+        } else {
+            (*q)->value = (*p)->value;
+            *q = *p;
+            *p = (*p)->left;
+            umen = true;
+        }
+    }
+
+    TreeNode<T> *__remove__(const T &val, TreeNode<T> *p, bool &umen) {
+        if (p == nullptr) {
+        } else if (val < p->value) {
+            p->left = __remove__(val, p->left, umen);
+            if (umen) p = BL(p, umen);
+        } else if (val > p->value) {
+            p->right = __remove__(val, p->right, umen);
+            if (umen) p = BR(p, umen);
+        } else {
+            TreeNode<T> *q = p;
+            if (q->left == nullptr) {
+                p = q->right;
+                umen = true;
+            } else if (q->right == nullptr) {
+                p = q->left;
+                umen = true;
+            } else {
+                del(&q->left, &q, umen);
+                if (umen) p = BL(p, umen);
+            }
+            delete q;
+        }
+        return p;
+    }
+
 public:
     void add(const T &val) override {
-        bool rost = true;
+        bool rost = false;
         this->root = __add__(val, this->root, rost);
     }
 
-    void remove(const T &val) override {}
+    void remove(const T &val) override {
+        bool umen = false;
+        this->root = __remove__(val, this->root, umen);
+    }
 };

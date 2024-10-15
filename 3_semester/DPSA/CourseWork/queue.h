@@ -119,9 +119,4 @@ public:
      * @param other - Container adaptor to exchange the contents with.
      */
     void swap(queue &other) noexcept { container.swap(other.container); }
-
-    template <class... Args>
-    void insert_many_back(Args &&...args) {
-        container.insert_many_back(args...);
-    }
 };
