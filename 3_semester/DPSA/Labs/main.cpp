@@ -148,6 +148,8 @@ void lab6() {
 
 // Does not apply to tasks!
 void chelenge() {
+    // The essence of the challenge is to display the AVL tree on the screen by entering elements from the terminal with the encoding cp1251 in Cyrillic.
+
     SetConsoleCP(1251);
 
     AVLTree<char> tree;
