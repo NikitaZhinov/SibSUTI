@@ -3,6 +3,7 @@
 
 #include <random>
 #include <iostream>
+#include <wchar.h>
 
 void lab1() {
     RSTree<int> tree;
