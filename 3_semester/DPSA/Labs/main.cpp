@@ -3,7 +3,7 @@
 
 #include <random>
 #include <iostream>
-#include <wchar.h>
+#include <Windows.h>
 
 void lab1() {
     RSTree<int> tree;
@@ -146,13 +146,28 @@ void lab6() {
     }
 }
 
+// Does not apply to tasks!
+void chelenge() {
+    SetConsoleCP(1251);
+
+    AVLTree<char> tree;
+    std::vector<char> arr(12);
+
+    for (char &elem : arr) {
+        std::cin >> elem;
+        tree.add(elem);
+    }
+
+    GraphicsTree<char>::veiwTree({ &tree }, std::locale(".1251"));
+}
+
 int main() {
     // lab1();
     // lab2();
     // lab3();
     // lab4();
     // lab5();
-    lab6();
+    // lab6();
 
     return 0;
 }

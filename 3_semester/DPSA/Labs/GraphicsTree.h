@@ -71,10 +71,10 @@ class GraphicsTree {
         }
     }
 
-    static void __initText__(std::vector<sf::Text> &numbers, const sf::Font &font, const TreeSettings &sett) {
+    static void __initText__(std::vector<sf::Text> &numbers, const sf::Font &font, const TreeSettings &sett, const std::locale &loc) {
         if (sett.p != nullptr) {
             sf::Text number;
-            number.setString(std::format("{}", sett.p->value).c_str());
+            number.setString(sf::String(std::format("{}", sett.p->value), loc));
             number.setFont(font);
             number.setCharacterSize(static_cast<unsigned>(sett.radius));
             number.setFillColor(sf::Color::Black);
@@ -86,16 +86,16 @@ class GraphicsTree {
             new_sett.p = sett.p->left;
             new_sett.right_x = (sett.left_x + sett.right_x) / 2;
             new_sett.y = sett.y + 20 + static_cast<std::size_t>(sett.radius) * 2;
-            __initText__(numbers, font, new_sett);
+            __initText__(numbers, font, new_sett, loc);
 
             new_sett.p = sett.p->right;
             new_sett.left_x = (sett.left_x + sett.right_x) / 2;
             new_sett.right_x = sett.right_x;
-            __initText__(numbers, font, new_sett);
+            __initText__(numbers, font, new_sett, loc);
         }
     }
 
-    static void __veiwTree__(ITree<T> *tree) {
+    static void __veiwTree__(ITree<T> *tree, const std::locale &loc) {
         sf::ContextSettings settings;
         settings.antialiasingLevel = 8;
         sf::RenderWindow window(sf::VideoMode(1900, 600), "Tree", sf::Style::Default, settings);
@@ -116,7 +116,7 @@ class GraphicsTree {
         TreeSettings sett = { tree->root, radius, 0, window.getSize().x, 10 };
         __initLeafs__(leafs, sett);
         __initBranches__(branches, sett);
-        __initText__(numbers, font, sett);
+        __initText__(numbers, font, sett, loc);
 
         while (window.isOpen()) {
             sf::Event event;
@@ -140,10 +140,10 @@ class GraphicsTree {
     }
 
 public:
-    static void veiwTree(const std::initializer_list<ITree<T> *> &init_list) {
+    static void veiwTree(const std::initializer_list<ITree<T> *> &init_list, const std::locale &loc = std::locale()) {
         std::vector<std::thread> threads;
         for (ITree<T> *elem : init_list)
-            threads.push_back(std::thread(__veiwTree__, elem));
+            threads.push_back(std::thread(__veiwTree__, elem, loc));
         for (std::thread &th : threads)
             th.join();
     }
