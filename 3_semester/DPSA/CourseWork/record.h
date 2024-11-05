@@ -26,7 +26,7 @@ private:
     void __copy__(const Record &other);
 
 protected:
-    static void __getLastName__(char title[], char *last_name);
+    static void __getLastName__(char title[], char *last_name, std::size_t size);
 
 public:
     Record();
@@ -37,6 +37,16 @@ public:
 
     static RecordList getRecords(std::ifstream &file_base);
     static void printRecord(const Record &rec);
+
+    friend bool operator<(const Record &a, const Record &b);
+    friend bool operator>(const Record &a, const Record &b);
+    friend bool operator==(const Record &a, const Record &b);
+    friend bool operator<=(const Record &a, const Record &b);
+    friend bool operator>=(const Record &a, const Record &b);
+
+    friend bool operator<(const Record &a, const short &b);
+    friend bool operator>(const Record &a, const short &b);
+    friend bool operator==(const Record &a, const short &b);
 };
 
 class RecordList : public Record {

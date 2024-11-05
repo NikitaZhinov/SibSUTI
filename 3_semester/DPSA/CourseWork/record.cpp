@@ -21,7 +21,7 @@ void Record::__copy__(const Record &other) {
     count_of_line = other.count_of_line;
 }
 
-void Record::__getLastName__(char title[], char *last_name) {
+void Record::__getLastName__(char title[], char *last_name, std::size_t size) {
     int c = 0;
     int j = 0;
     for (int k = 0; k < 2; k++) {
@@ -29,7 +29,7 @@ void Record::__getLastName__(char title[], char *last_name) {
             c = title[j++];
         } while (c != ' ');
     }
-    for (int i = 0; i < BITE_NUMBER; i++)
+    for (int i = 0; i < size; i++)
         last_name[i] = title[j++];
 }
 
@@ -72,6 +72,38 @@ void Record::printRecord(const Record &rec) {
     std::println("{} | {} | {} | {} | {}", rec.author, rec.title, rec.publish, rec.year, rec.count_of_line);
 }
 
+bool operator<(const Record &a, const Record &b) {
+    return a.year < b.year;
+}
+
+bool operator>(const Record &a, const Record &b) {
+    return a.year > b.year;
+}
+
+bool operator==(const Record &a, const Record &b) {
+    return a.year == b.year;
+}
+
+bool operator<=(const Record &a, const Record &b) {
+    return a < b || a == b;
+}
+
+bool operator>=(const Record &a, const Record &b) {
+    return a > b || a == b;
+}
+
+bool operator<(const Record &a, const short &b) {
+    return a.year < b;
+}
+
+bool operator>(const Record &a, const short &b) {
+    return a.year > b;
+}
+
+bool operator==(const Record &a, const short &b) {
+    return a.year == b;
+}
+
 void RecordList::__init_array__() {
     std::size_t i = 0;
     for (Record &record : record_list)
@@ -110,7 +142,7 @@ void RecordList::sort() {
 
         for (auto &rec : record_list) {
             char last_name[BITE_NUMBER + 1] = { 0 };
-            __getLastName__(rec.title, last_name);
+            __getLastName__(rec.title, last_name, BITE_NUMBER + 1);
 
             int index = std::abs(last_name[i]) % count_of_queue;
             Q[index].push_back(rec);
@@ -130,15 +162,16 @@ void RecordList::search(queue<Record> &searched_records, const char *key) {
 
     while (left < right) {
         middle = (left + right) / 2;
-        __getLastName__(array_pointers.get()[middle]->title, last_name);
+        __getLastName__(array_pointers.get()[middle]->title, last_name, BITE_NUMBER);
         if (strcmp(last_name, key) < 0)
             left = middle + 1;
         else
             right = middle;
     }
+    __getLastName__(array_pointers.get()[right]->title, last_name, BITE_NUMBER);
     do {
-        __getLastName__(array_pointers.get()[right]->title, last_name);
         searched_records.push(*array_pointers.get()[right++]);
+        __getLastName__(array_pointers.get()[right]->title, last_name, BITE_NUMBER);
     } while (strcmp(last_name, key) == 0 && right < COUNT_OF_RECORDS);
 }
 

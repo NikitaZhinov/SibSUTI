@@ -312,13 +312,7 @@ public:
 	}
 
 	static size_type max_size() {
-		return static_cast<size_type>((std::numeric_limits<size_type>::max)()) / sizeof(_node) /
-#if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__)
-			1
-#else
-			2
-#endif
-			;
+		return static_cast<size_type>((std::numeric_limits<size_type>::max)()) / sizeof(_node);
 	}
 
 	void merge(list& other) { merge(std::move(other), [](const value_type& a, const value_type& b) { return a <= b; }); }

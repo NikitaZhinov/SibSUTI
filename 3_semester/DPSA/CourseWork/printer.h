@@ -13,4 +13,5 @@ public:
     static void printByPages(const RecordList &records);
     static void printAll(const RecordList &records);
     static void printSearchRecords(RecordList &records);
+    static void printSearchTree(list<Record> &records);
 };

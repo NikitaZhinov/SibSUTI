@@ -145,6 +145,7 @@
     <ClInclude Include="printer.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="record.h" />
+    <ClInclude Include="tree.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />

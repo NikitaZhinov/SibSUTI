@@ -49,13 +49,21 @@ struct _List_iterator {
     }
 
     _self &operator--() noexcept {
-        current = current->prev_;
+        if (current == nullptr && last != nullptr) {
+            current = last;
+            last = nullptr;
+        } else
+            current = current->prev_;
         return *this;
     }
 
     _self operator--(int) noexcept {
         _self tmp = *this;
-        current = current->prev_;
+        if (current == nullptr && last != nullptr) {
+            current = last;
+            last = nullptr;
+        } else
+            current = current->prev_;
         return tmp;
     }
 

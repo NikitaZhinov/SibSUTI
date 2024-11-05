@@ -1,4 +1,5 @@
 #include "printer.h"
+#include "tree.h"
 
 #include <print>
 #include <iostream>
@@ -120,15 +121,47 @@ void Printer::printSearchRecords(RecordList &records) {
     queue<Record> searched_records;
     records.search(searched_records, key.c_str());
 
+    list<Record> searched_records_copy;
     SetConsoleOutputCP(866);
     while (!searched_records.empty()) {
         Record::printRecord(searched_records.front());
+        searched_records_copy.push_back(searched_records.front());
         searched_records.pop();
     }
 
     SetConsoleOutputCP(65001);
     char a = 0;
-    std::println("\n0 - Назад");
+    std::println("\n1 - Поиск в дереве");
+    std::println("0 - В начало");
+    do {
+        std::cin >> a;
+    } while (a != '0' && a != '1');
+
+    if (a == '1')
+        printSearchTree(searched_records_copy);
+}
+
+void Printer::printSearchTree(list<Record> &records) {
+    clearConsole();
+
+    SetConsoleOutputCP(866);
+    tree<Record> tree(records);
+    tree.print(Record::printRecord);
+
+    SetConsoleOutputCP(65001);
+    std::print("\nВведите год: ");
+    short key;
+    std::cin >> key;
+    std::println();
+
+    records = std::move(tree.find(key));
+    SetConsoleOutputCP(866);
+    for (const Record &r : records)
+        Record::printRecord(r);
+
+    SetConsoleOutputCP(65001);
+    char a = 0;
+    std::println("\n0 - В начало");
     do {
         std::cin >> a;
     } while (a != '0');
