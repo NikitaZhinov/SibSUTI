@@ -772,8 +772,8 @@ public:
             it++;
         }
 
-        a.sort();
-        b.sort();
+        a.sort(comp);
+        b.sort(comp);
 
         a.merge(b, comp);
         *this = std::move(a);

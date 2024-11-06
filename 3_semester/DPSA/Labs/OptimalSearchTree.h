@@ -5,18 +5,18 @@
 #include <utility>
 #include <list>
 
-template <class T> struct OSTree {
+template <class T> struct OSTreeNode {
     T value;
-    OSTree *left, *right;
+    OSTreeNode *left, *right;
     uint64_t weight;
 
-    OSTree(const T &val) : value(val), left(nullptr), right(nullptr), weight(0) {}
+    OSTreeNode(const T &val) : value(val), left(nullptr), right(nullptr), weight(0) {}
 
-    OSTree(const T &val, const uint64_t &w) : value(val), left(nullptr), right(nullptr), weight(w) {}
+    OSTreeNode(const T &val, const uint64_t &w) : value(val), left(nullptr), right(nullptr), weight(w) {}
 };
 
 // The exact optimal search tree
-template <class T> class EOSTree : public RSTree<T, OSTree<T>> {
+template <class T> class EOSTree : public RSTree<T, OSTreeNode<T>> {
     using WeightsMatrix_t = std::vector<std::vector<uint64_t>>;
 
 protected:
@@ -71,21 +71,21 @@ protected:
         }
     }
 
-    int __sumLengthWaysTreeDOP__(OSTree<T> *p, int L) {
+    int __sumLengthWaysTreeDOP__(OSTreeNode<T> *p, int L) {
         if (p == nullptr) return 0;
         return p->weight * L + __sumLengthWaysTreeDOP__(p->left, L + 1) + __sumLengthWaysTreeDOP__(p->right, L + 1);
     }
 
-    int __weightTree__(OSTree<T> *p) {
+    int __weightTree__(OSTreeNode<T> *p) {
         if (p == nullptr) return 0;
         return p->weight + __weightTree__(p->left) + __weightTree__(p->right);
     }
 
     void __add__(const std::pair<T, uint64_t> &val) {
         if (this->root == nullptr)
-            this->root = new OSTree(val.first, val.second);
+            this->root = new OSTreeNode(val.first, val.second);
         else {
-            OSTree<T> *cur = this->root, *pred = nullptr;
+            OSTreeNode<T> *cur = this->root, *pred = nullptr;
 
             do {
                 pred = cur;
@@ -96,9 +96,9 @@ protected:
             } while (cur != nullptr);
 
             if (val.first < pred->value)
-                pred->left = new OSTree(val.first, val.second);
+                pred->left = new OSTreeNode(val.first, val.second);
             else
-                pred->right = new OSTree(val.first, val.second);
+                pred->right = new OSTreeNode(val.first, val.second);
         }
     }
 
@@ -106,7 +106,7 @@ public:
     EOSTree(std::vector<std::pair<T, uint64_t>> arr) : AW(arr.size() + 1, std::vector<uint64_t>(arr.size() + 1, 0)),
                                                        AP(arr.size() + 1, std::vector<uint64_t>(arr.size() + 1, 0)),
                                                        AR(arr.size() + 1, std::vector<uint64_t>(arr.size() + 1, 0)) {
-        arr.push_back(std::pair<T, uint64_t>());
+        arr.insert(arr.begin(), std::pair<T, uint64_t>());
         __calculateAW__(arr);
         __calculateAPAndAR__();
         __create__(arr, 0, arr.size() - 1);
@@ -127,23 +127,23 @@ public:
     double weightedAverageHeightTree() { return static_cast<double>(__sumLengthWaysTreeDOP__(this->root, 1)) / static_cast<double>(__weightTree__(this->root)); }
 };
 
-template <class T> class OSTreeA1 : public RSTree<T, OSTree<T>> {
+template <class T> class OSTreeA1 : public RSTree<T, OSTreeNode<T>> {
 public:
     OSTreeA1(std::vector<std::pair<T, uint64_t>> arr) {
-        std::sort(arr.begin(), arr.end(), [](const std::pair<T, uint64_t> &a, const std::pair<T, uint64_t> &b) { return a.second < b.second; });
+        std::sort(arr.begin(), arr.end(), [](const std::pair<T, uint64_t> &a, const std::pair<T, uint64_t> &b) { return a.second > b.second; });
         for (const std::pair<T, uint64_t> &elem : arr) this->add(elem.first);
     }
 };
 
-template <class T> class OSTreeA2 : public RSTree<T, OSTree<T>> {
+template <class T> class OSTreeA2 : public RSTree<T, OSTreeNode<T>> {
 protected:
     void __create__(const std::vector<std::pair<T, uint64_t>> &arr, int64_t left, int64_t right) {
         std::size_t wes = 0, sum = 0;
         if (left <= right) {
-            std::size_t i = left;
-            for (i = left; i < right; i++) wes += arr.at(i).second;
+            int64_t i = left;
+            for (i = left; i <= right; i++) wes += arr.at(i).second;
             for (i = left; i < right; i++) {
-                if (sum < wes / 2 && sum + arr.at(i).second > wes / 2) break;
+                if (sum < wes / 2 && sum + arr.at(i).second >= wes / 2) break;
                 sum += arr.at(i).second;
             }
             __add__(arr.at(i));
@@ -154,9 +154,9 @@ protected:
 
     void __add__(const std::pair<T, uint64_t> &val) {
         if (this->root == nullptr)
-            this->root = new OSTree(val.first, val.second);
+            this->root = new OSTreeNode(val.first, val.second);
         else {
-            OSTree<T> *cur = this->root, *pred = nullptr;
+            OSTreeNode<T> *cur = this->root, *pred = nullptr;
 
             do {
                 pred = cur;
@@ -167,12 +167,15 @@ protected:
             } while (cur != nullptr);
 
             if (val.first < pred->value)
-                pred->left = new OSTree(val.first, val.second);
+                pred->left = new OSTreeNode(val.first, val.second);
             else
-                pred->right = new OSTree(val.first, val.second);
+                pred->right = new OSTreeNode(val.first, val.second);
         }
     }
 
 public:
-    OSTreeA2(const std::vector<std::pair<T, uint64_t>> &arr) { __create__(arr, 0, arr.size() - 1); }
+    OSTreeA2(std::vector<std::pair<T, uint64_t>> arr) {
+        std::sort(arr.begin(), arr.end(), [](const std::pair<T, uint64_t> &a, const std::pair<T, uint64_t> &b) { return a.first < b.first; });
+        __create__(arr, 0, arr.size() - 1);
+    }
 };

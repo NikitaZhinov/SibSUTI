@@ -1,6 +1,7 @@
 #pragma once
 
 #include "queue.h"
+#include "record.h"
 
 #include <utility>
 
@@ -15,11 +16,6 @@ template <class T> struct _TreeNode {
 
 template <class T> class tree {
 protected:
-    struct ElemWithWeight {
-        list<T> elem;
-        uint64_t weight;
-    };
-
     _TreeNode<T> *root;
     std::size_t size;
 
@@ -30,39 +26,36 @@ protected:
         return weight;
     }
 
-    uint64_t __sumWeights__(const list<ElemWithWeight> &l) {
+    uint64_t __sumWeights__(list<T> *l, const std::size_t &size) {
         uint64_t sum = 0;
-        for (const ElemWithWeight &elem : l)
-            sum += elem.weight;
+        for (std::size_t i = 0; i < size; ++i)
+            sum += l[i].size();
         return sum;
     }
 
-    bool __isExist__(list<ElemWithWeight> &l, const T &val) {
-        bool is_exist = false;
-        for (ElemWithWeight &elem : l) {
-            if (elem.elem.front() == val) {
-                is_exist = true;
-                elem.elem.push_back(val);
-                break;
+    bool __isExist__(list<T> *l, const std::size_t &size, const T &val) {
+        for (std::size_t i = 0; i < size; ++i) {
+            if (l[i].front() == val) {
+                l[i].push_back(val);
+                return true;
             }
         }
-        return is_exist;
+        return false;
     }
 
-    template <class _Iter> void __create__(_Iter left, _Iter right) {
-        uint64_t wes = 0, sum = 0;
-        _Iter it = left;
-        for (; it != right; it++) wes += it->weight;
-        _Iter last = right;
-        last--;
-        for (it = left; it != right; it++) {
-            if (sum < wes / 2 && sum + it->weight > wes / 2) break;
-            sum += it->weight;
+    template <class A> void __create__(const A &arr, int64_t left, int64_t right) {
+        if (left <= right) {
+            uint64_t wes = 0, sum = 0;
+            int64_t i = left;
+            for (i = left; i <= right; ++i) wes += arr[i].size();
+            for (i = left; i < right; ++i) {
+                if (sum < wes / 2 && sum + arr[i].size() >= wes / 2) break;
+                sum += arr[i].size();
+            }
+            __add__(arr[i]);
+            __create__(arr, left, i - 1);
+            __create__(arr, i + 1, right);
         }
-        it = last;
-        __add__(it->elem);
-        if (it != left) __create__(left, it);
-        if (++it != right) __create__(it, right);
     }
 
     void __clear__(_TreeNode<T> *p) {
@@ -96,9 +89,12 @@ protected:
     }
 
     template <class P = T> list<T> __find__(_TreeNode<T> *p, const P &key) {
-        if (p->value.front() == key) return p->value;
-        else if (p->value.front() < key) return __find__(p->right, key);
-        return __find__(p->left, key);
+        if (p != nullptr) {
+            if (p->value.front() == key) return p->value;
+            else if (p->value.front() < key) return __find__(p->right, key);
+            return __find__(p->left, key);
+        }
+        return list<T>();
     }
 
     template <class PrintFunc> void __print__(_TreeNode<T> *p, PrintFunc print) {
@@ -109,19 +105,39 @@ protected:
         }
     }
 
+    int64_t __quickSort__(list<T> *&arr, int64_t left, int64_t right) {
+        T &pivo = arr[(left + right) / 2].front();
+        while (left <= right) {
+            while (arr[left].front() < pivo) left++;
+            while (arr[right].front() > pivo) right--;
+            if (left <= right) std::swap(arr[left++], arr[right--]);
+        }
+        return left;
+    }
+
+    void __sort__(list<T> *&arr, int64_t start, int64_t end) {
+        if (start >= end) return;
+        int64_t rightStart = __quickSort__(arr, start, end);
+        __sort__(arr, start, rightStart - 1);
+        __sort__(arr, rightStart, end);
+    }
+
 public:
     tree() : root(nullptr) {}
 
     template <class Contaner> tree(const Contaner &c) {
-        list<ElemWithWeight> l;
+        list<T> *l = new list<T>[c.size()];
+        std::size_t size = 0;
         auto it = c.begin();
-        while (__sumWeights__(l) != c.size()) {
+        while (__sumWeights__(l, size) != c.size()) {
             T val = *it;
-            it++;
-            if (__isExist__(l, val)) continue;
-            l.push_back({ list<T>(1, val), __calculateWeight__(val, c.begin(), c.end()) });
+            ++it;
+            if (__isExist__(l, size, val)) continue;
+            l[size] = list<T>(1, val);
+            ++size;
         }
-        __create__(l.begin(), l.end());
+        __sort__(l, 0, size - 1);
+        __create__(l, 0, size - 1);
     }
 
     ~tree() { clear(); }

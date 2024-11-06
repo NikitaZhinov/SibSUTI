@@ -219,7 +219,7 @@ void lab8() {
     std::println("\n n = {:3} | Size | Sum | Height | Medium Height", size);
     std::println("     EOS |{:5} |{:4} |{:7} |{:14}", eost_tree.getSize(), eost_tree.getSum(), eost_tree.getHeight(), eost_tree.getMediumHeight());
 
-    GraphicsTree<int, OSTree<int>>::veiwTree({ &eost_tree });
+    GraphicsTree<int, OSTreeNode<int>>::veiwTree({ &eost_tree });
 }
 
 void lab9() {
@@ -253,7 +253,7 @@ void lab9() {
     std::println("      A1 |{:5} |{:4} |{:7} |{:14}", a1_tree.getSize(), a1_tree.getSum(), a1_tree.getHeight(), a1_tree.getMediumHeight());
     std::println("      A2 |{:5} |{:4} |{:7} |{:14}", a2_tree.getSize(), a2_tree.getSum(), a2_tree.getHeight(), a2_tree.getMediumHeight());
 
-    GraphicsTree<int, OSTree<int>>::veiwTree({ &a1_tree, &a2_tree });
+    GraphicsTree<int, OSTreeNode<int>>::veiwTree({ &a1_tree, &a2_tree });
 }
 
 int main() {
@@ -264,8 +264,25 @@ int main() {
     // lab5();
     // lab6();
     // lab7();
-    lab8();
+    // lab8();
     // lab9();
+
+    std::vector<std::pair<char, uint64_t>> arr = { // жинов никита андреевич
+        std::pair<char, uint64_t>('ж', 1),
+        std::pair<char, uint64_t>('и', 4),
+        std::pair<char, uint64_t>('н', 3),
+        std::pair<char, uint64_t>('о', 1),
+        std::pair<char, uint64_t>('в', 2),
+        std::pair<char, uint64_t>('к', 1),
+        std::pair<char, uint64_t>('т', 1),
+        std::pair<char, uint64_t>('а', 2),
+        std::pair<char, uint64_t>('д', 1),
+        std::pair<char, uint64_t>('р', 1),
+        std::pair<char, uint64_t>('е', 2),
+        std::pair<char, uint64_t>('ч', 1)
+    };
+    OSTreeA2<char> tree(arr);
+    GraphicsTree<char, OSTreeNode<char>>::veiwTree({ &tree }, std::locale("rus"));
 
     return 0;
 }
