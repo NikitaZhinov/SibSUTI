@@ -138,11 +138,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Coding.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AVLTree.h" />
     <ClInclude Include="BTree.h" />
+    <ClInclude Include="Coding.h" />
     <ClInclude Include="GraphicsTree.h" />
     <ClInclude Include="OptimalSearchTree.h" />
     <ClInclude Include="Tree.h" />
@@ -152,6 +154,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="tree.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="shennon.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

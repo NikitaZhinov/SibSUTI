@@ -1,5 +1,7 @@
 #include "printer.h"
+
 #include "tree.h"
+#include "coding.h"
 
 #include <print>
 #include <iostream>
@@ -17,7 +19,7 @@ void Printer::clearConsole() {
 #endif
 }
 
-void Printer::printRecords(RecordList &records) {
+void Printer::printRecords(RecordList &records, std::ifstream &file_base) {
     uint8_t mode = 0;
 
     SetConsoleCP(866); // установка кодовой страницы win-cp 866 в поток ввода
@@ -30,6 +32,7 @@ void Printer::printRecords(RecordList &records) {
         std::println("1 - Просмотр по страницам");
         std::println("2 - Посмотреть все");
         std::println("3 - Найти записи");
+        std::println("4 - Закодировать базу данных");
         std::println("0 - Выход");
 
         std::cin >> mode;
@@ -45,6 +48,10 @@ void Printer::printRecords(RecordList &records) {
 
             case '3':
                 printSearchRecords(records);
+                break;
+
+            case '4':
+                printCodeRecords(records, file_base);
                 break;
 
             default:
@@ -118,10 +125,10 @@ void Printer::printSearchRecords(RecordList &records) {
     std::cin >> key;
     std::println();
 
-    queue<Record> searched_records;
+    utils::queue<Record> searched_records;
     records.search(searched_records, key.c_str());
 
-    list<Record> searched_records_copy;
+    utils::list<Record> searched_records_copy;
     SetConsoleOutputCP(866);
     while (!searched_records.empty()) {
         Record::printRecord(searched_records.front());
@@ -141,7 +148,7 @@ void Printer::printSearchRecords(RecordList &records) {
         printSearchTree(searched_records_copy);
 }
 
-void Printer::printSearchTree(list<Record> &records) {
+void Printer::printSearchTree(utils::list<Record> &records) {
     clearConsole();
 
     SetConsoleOutputCP(866);
@@ -156,8 +163,11 @@ void Printer::printSearchTree(list<Record> &records) {
 
     records = std::move(tree.find(key));
     SetConsoleOutputCP(866);
-    for (const Record &r : records)
+    std::size_t i = 1;
+    for (const Record &r : records) {
+        std::print("{:3} - ", i++);
         Record::printRecord(r);
+    }
 
     SetConsoleOutputCP(65001);
     char a = 0;
@@ -165,4 +175,39 @@ void Printer::printSearchTree(list<Record> &records) {
     do {
         std::cin >> a;
     } while (a != '0');
+}
+
+void Printer::printCodeRecords(const RecordList &records, std::ifstream &file_base) {
+    clearConsole();
+    SetConsoleOutputCP(866);
+
+    CodeRecordList code_recs(file_base);
+    code_recs.printCodeAlphabet();
+
+    SetConsoleOutputCP(65001);
+    char a = 0;
+    std::println("\n1 - Вывести закодированную базу данных");
+    std::println("0 - Назад");
+    do {
+        std::cin >> a;
+    } while (a != '0' && a != '1');
+
+    switch (a) {
+        case '1': {
+            clearConsole();
+            SetConsoleOutputCP(866);
+            code_recs.codingRecords();
+            code_recs.printCodeRecords();
+
+            SetConsoleOutputCP(65001);
+            char a = 0;
+            std::println("0 - Назад");
+            do {
+                std::cin >> a;
+            } while (a != '0');
+        } break;
+
+        default:
+            break;
+    }
 }

@@ -1,10 +1,13 @@
 ﻿#include "GraphicsTree.h"
 #include "AVLTree.h"
 #include "OptimalSearchTree.h"
+#include "Coding.h"
 
 #include <random>
 #include <iostream>
 #include <Windows.h>
+#include <fstream>
+#include <string>
 
 void lab1() {
     RSTree<int> tree;
@@ -225,12 +228,13 @@ void lab8() {
 void lab9() {
     SetConsoleOutputCP(1251);
 
+    int size = 100;
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(1, 100);
+    std::uniform_int_distribution<> dis(1, size);
 
     std::vector<std::pair<int, uint64_t>> arr;
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < size; i++)
         arr.push_back(std::pair<int, uint64_t>(i, dis(gen)));
 
     std::print("Исходный массив: ");
@@ -248,12 +252,106 @@ void lab9() {
     std::print("Дерево A2 слева на право: ");
     a2_tree.printFromLeftToRight();
 
-    std::println("\n n = 100 | Size | Sum | Height | Medium Height");
+    std::println("\n n = {:3} | Size | Sum | Height | Medium Height", size);
     std::println("     EOS |{:5} |{:4} |{:7} |{:14}", eost_tree.getSize(), eost_tree.getSum(), eost_tree.getHeight(), eost_tree.getMediumHeight());
     std::println("      A1 |{:5} |{:4} |{:7} |{:14}", a1_tree.getSize(), a1_tree.getSum(), a1_tree.getHeight(), a1_tree.getMediumHeight());
     std::println("      A2 |{:5} |{:4} |{:7} |{:14}", a2_tree.getSize(), a2_tree.getSum(), a2_tree.getHeight(), a2_tree.getMediumHeight());
 
     GraphicsTree<int, OSTreeNode<int>>::veiwTree({ &a1_tree, &a2_tree });
+}
+
+void lab10() {
+    SetConsoleOutputCP(1251);
+
+    std::string file_name = "shennon.txt";
+    std::vector<std::pair<char, float>> russian_alphabet = {
+        std::pair<char, float>('а', 0.0f),
+        std::pair<char, float>('б', 0.0f),
+        std::pair<char, float>('в', 0.0f),
+        std::pair<char, float>('г', 0.0f),
+        std::pair<char, float>('д', 0.0f),
+        std::pair<char, float>('е', 0.0f),
+        std::pair<char, float>('ё', 0.0f),
+        std::pair<char, float>('ж', 0.0f),
+        std::pair<char, float>('з', 0.0f),
+        std::pair<char, float>('и', 0.0f),
+        std::pair<char, float>('й', 0.0f),
+        std::pair<char, float>('к', 0.0f),
+        std::pair<char, float>('л', 0.0f),
+        std::pair<char, float>('м', 0.0f),
+        std::pair<char, float>('н', 0.0f),
+        std::pair<char, float>('о', 0.0f),
+        std::pair<char, float>('п', 0.0f),
+        std::pair<char, float>('р', 0.0f),
+        std::pair<char, float>('с', 0.0f),
+        std::pair<char, float>('т', 0.0f),
+        std::pair<char, float>('у', 0.0f),
+        std::pair<char, float>('ч', 0.0f),
+        std::pair<char, float>('ц', 0.0f),
+        std::pair<char, float>('ш', 0.0f),
+        std::pair<char, float>('щ', 0.0f),
+        std::pair<char, float>('ф', 0.0f),
+        std::pair<char, float>('х', 0.0f),
+        std::pair<char, float>('ь', 0.0f),
+        std::pair<char, float>('ы', 0.0f),
+        std::pair<char, float>('ъ', 0.0f),
+        std::pair<char, float>('э', 0.0f),
+        std::pair<char, float>('ю', 0.0f),
+        std::pair<char, float>('я', 0.0f),
+    };
+    std::size_t file_size = 10240;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, russian_alphabet.size() - 1);
+
+    // create file
+    /*std::ofstream file_out(file_name);
+    for (std::size_t i = 0; i < file_size; ++i) file_out << russian_alphabet[dis(gen)].first;
+    file_out.close();*/
+
+    std::ifstream file_in(file_name);
+    while (!file_in.eof()) {
+        char c = 0;
+        file_in >> c;
+        for (std::pair<char, float> &p : russian_alphabet)
+            if (c == p.first) ++p.second;
+    }
+    for (std::pair<char, float> &p : russian_alphabet) p.second /= static_cast<float>(file_size);
+    file_in.close();
+
+    auto codes = coding::shennon(russian_alphabet);
+
+    std::size_t max_lentgh = 0;
+    for (const coding::ShennonTable &table : codes)
+        if (max_lentgh < table.length_code) max_lentgh = table.length_code;
+
+    // std::sort(codes.begin(), codes.end(), [](const coding::ShennonTable &a, const coding::ShennonTable &b) { return a.symbol < b.symbol; });
+
+    std::println(" Char | Probability |  Code | Length Code");
+    for (const coding::ShennonTable &table : codes) {
+        std::print(" {:>4} | {:<11} | ", table.symbol, table.probability);
+        if (table.length_code < max_lentgh)
+            for (int i = 0; i < max_lentgh - table.length_code; ++i) std::print(" ");
+        for (const int &i : table.code) std::print("{}", i);
+        std::println(" | {}", table.length_code);
+    }
+
+    float sum = 0;
+    for (const coding::ShennonTable &table : codes) {
+        sum += 1.0f / std::pow(2.0f, table.length_code);
+    }
+    std::println("\nSUM 1/2^Li <= 1");
+    std::println("{} <= 1\n", sum);
+
+    float ml = 0, entropy = 0;
+    for (const coding::ShennonTable &table : codes) {
+        ml += table.probability * table.length_code;
+        entropy += table.probability * -std::log2(table.probability);
+    }
+    std::println("Medium Length = {}", ml);
+    std::println("Entropy = {}", entropy);
+    std::println("Medium Length - Entropy = {}", ml - entropy);
 }
 
 int main() {
@@ -266,23 +364,7 @@ int main() {
     // lab7();
     // lab8();
     // lab9();
-
-    std::vector<std::pair<char, uint64_t>> arr = { // жинов никита андреевич
-        std::pair<char, uint64_t>('ж', 1),
-        std::pair<char, uint64_t>('и', 4),
-        std::pair<char, uint64_t>('н', 3),
-        std::pair<char, uint64_t>('о', 1),
-        std::pair<char, uint64_t>('в', 2),
-        std::pair<char, uint64_t>('к', 1),
-        std::pair<char, uint64_t>('т', 1),
-        std::pair<char, uint64_t>('а', 2),
-        std::pair<char, uint64_t>('д', 1),
-        std::pair<char, uint64_t>('р', 1),
-        std::pair<char, uint64_t>('е', 2),
-        std::pair<char, uint64_t>('ч', 1)
-    };
-    OSTreeA2<char> tree(arr);
-    GraphicsTree<char, OSTreeNode<char>>::veiwTree({ &tree }, std::locale("rus"));
+    lab10();
 
     return 0;
 }

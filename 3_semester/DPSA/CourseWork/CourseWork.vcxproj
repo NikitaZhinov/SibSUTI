@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -136,16 +136,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="coding.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="printer.cpp" />
     <ClCompile Include="record.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="coding.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="printer.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="record.h" />
     <ClInclude Include="tree.h" />
+    <ClInclude Include="vector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />

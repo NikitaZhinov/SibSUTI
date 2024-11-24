@@ -9,9 +9,10 @@ class Printer {
     static void clearConsole();
 
 public:
-    static void printRecords(RecordList &records);
+    static void printRecords(RecordList &records, std::ifstream &file_base);
     static void printByPages(const RecordList &records);
     static void printAll(const RecordList &records);
     static void printSearchRecords(RecordList &records);
-    static void printSearchTree(list<Record> &records);
+    static void printSearchTree(utils::list<Record> &records);
+    static void printCodeRecords(const RecordList &records, std::ifstream &file_base);
 };

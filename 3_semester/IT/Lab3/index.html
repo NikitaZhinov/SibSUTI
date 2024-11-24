@@ -14,74 +14,80 @@
         <h3>Валюта</h3>
         <input id="currency-name" type="text" placeholder="Имя">
         <input id="currency-rate" type="text" placeholder="Курс">
-        <button>Посмотреть</button>
-        <button>Добавить</button>
-        <button>Обновить</button>
-        <button>Удалить</button>
-        <div></div>
+        <button onclick="veiwCurrencies()">Посмотреть</button>
+        <button onclick="addCurrencies()">Добавить</button>
+        <button onclick="updateCurrencies()">Обновить</button>
+        <button onclick="removeCurrencies()">Удалить</button>
+        <ul id="currency-list"></ul>
     </div>
 
-    <div class="type_of_expense">
+    <div class="type-of-expense">
         <h3>Тип расхода</h3>
-        <input type="text" placeholder="Наименование расхода">
-        <button>Посмотреть</button>
-        <button>Добавить</button>
-        <button>Обновить</button>
-        <button>Удалить</button>
-        <div></div>
+        <input id="expense-type-name" type="text" placeholder="Наименование расхода">
+        <button onclick="veiwTypesOfExpenses()">Посмотреть</button>
+        <button onclick="addTypesOfExpenses()">Добавить</button>
+        <button onclick="updateTypesOfExpenses()">Обновить</button>
+        <button onclick="removeTypesOfExpenses()">Удалить</button>
+        <ul id="expense-type-list"></ul>
     </div>
 
-    <div class="type_of_income">
+    <div class="type-of-income">
         <h3>Тип дохода</h3>
-        <input type="text" placeholder="Наименование дохода">
-        <button>Посмотреть</button>
-        <button>Добавить</button>
-        <button>Обновить</button>
-        <button>Удалить</button>
-        <div></div>
+        <input id="income-type-name" type="text" placeholder="Наименование дохода">
+        <button onclick="veiwTypesOfIncomes()">Посмотреть</button>
+        <button onclick="addTypesOfIncomes()">Добавить</button>
+        <button onclick="updateTypesOfIncomes()">Обновить</button>
+        <button onclick="removeTypesOfIncomes()">Удалить</button>
+        <ul id="income-type-list"></ul>
     </div>
 
     <div>
-        <h3>Расхода</h3>
-        <input type="text" placeholder="Значение">
-        <input type="text" placeholder="Тип">
-        <input type="date" placeholder="Дата">
-        <input type="text" placeholder="Валюта">
-        <button>Посмотреть</button>
-        <button>Добавить</button>
-        <button>Обновить</button>
-        <button>Удалить</button>
-        <div></div>
+        <h3>Расходы</h3>
+        <input id="expense-value" type="text" placeholder="Значение">
+        <input id="expense-type" type="text" placeholder="Тип">
+        <input id="expense-date" type="date" placeholder="Дата">
+        <input id="expense-currency" type="text" placeholder="Валюта">
+        <button onclick="veiwExpenses()">Посмотреть</button>
+        <button onclick="addExpenses()">Добавить</button>
+        <button onclick="updateExpenses()">Обновить</button>
+        <button onclick="removeExpenses()">Удалить</button>
+        <ul id="expense-list"></ul>
     </div>
 
     <div>
-        <h3>Доход</h3>
-        <input type="text" placeholder="Значение">
-        <input type="text" placeholder="Тип">
-        <input type="date" placeholder="Дата">
-        <input type="text" placeholder="Валюта">
-        <button>Посмотреть</button>
-        <button>Добавить</button>
-        <button>Обновить</button>
-        <button>Удалить</button>
-        <div></div>
+        <h3>Доходы</h3>
+        <input id="income-value" type="text" placeholder="Значение">
+        <input id="income-type" type="text" placeholder="Тип">
+        <input id="income-date" type="date" placeholder="Дата">
+        <input id="income-currency" type="text" placeholder="Валюта">
+        <button onclick="veiwIncomes()">Посмотреть</button>
+        <button onclick="addIncomes()">Добавить</button>
+        <button onclick="updateIncomes()">Обновить</button>
+        <button onclick="removeIncomes()">Удалить</button>
+        <ul id="income-list"></ul>
     </div>
 
     <div>
         <h3>Баланс</h3>
-        <input type="date" placeholder="Дата начала подсчёта">
-        <input type="date" placeholder="Дата конца подсчёта">
-        <button>Расчитать баланс</button>
-        <p></p>
+        <input id="balance-start-date" type="date" placeholder="Дата начала подсчёта">
+        <input id="balance-end-date" type="date" placeholder="Дата конца подсчёта">
+        <button onclick="balans()">Расчитать баланс</button>
+        <p id="balance-field"></p>
     </div>
 
     <div>
         <h3>Фильтр</h3>
-        <input type="date" placeholder="Дата начала отфильтровки">
-        <input type="date" placeholder="Дата конца отфильтровки">
-        <button>Отфильтровать</button>
-        <ul></ul>
+        <input id="filter-start-date" type="date" placeholder="Дата начала отфильтровки">
+        <input id="filter-end-date" type="date" placeholder="Дата конца отфильтровки">
+        <input id="filter-income-type" type="text" placeholder="Тип дохода">
+        <input id="filter-expense-type" type="text" placeholder="Тип расхода">
+        <button onclick="filter()">Отфильтровать</button>
+        <div>
+            <table id="filter-table" border="1px">
+            </table>
+        </div>
     </div>
-</body>
 
+    <script src="script.js"></script>
+</body>
 </html>

@@ -6,8 +6,11 @@
 
 class RecordList;
 
+class CodeRecordList;
+
 class Record {
     friend RecordList;
+    friend CodeRecordList;
 
 public:
     static const uint16_t COUNT_OF_RECORDS;
@@ -50,22 +53,22 @@ public:
 };
 
 class RecordList : public Record {
-    list<Record> record_list;
+    utils::list<Record> record_list;
     std::unique_ptr<Record *> array_pointers;
 
     void __init_array__();
 
 public:
     RecordList();
-    RecordList(const list<Record> &l);
+    RecordList(const utils::list<Record> &l);
     RecordList(const RecordList &other);
     RecordList(RecordList &&other) noexcept;
 
-    RecordList &operator=(const list<Record> &l);
+    RecordList &operator=(const utils::list<Record> &l);
 
     void sort();
-    void search(queue<Record> &searched_records, const char *key);
+    void search(utils::queue<Record> &searched_records, const char *key);
 
-    const list<Record> &getRecordList() const;
+    const utils::list<Record> &getRecordList() const;
     const std::unique_ptr<Record *> &getArrayPointers() const;
 };

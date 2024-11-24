@@ -20,7 +20,7 @@ void Record::__copy__(const Record &other) {
     year = other.year;
     count_of_line = other.count_of_line;
 }
-
+    
 void Record::__getLastName__(char title[], char *last_name, std::size_t size) {
     int c = 0;
     int j = 0;
@@ -55,7 +55,7 @@ Record::~Record() {
 }
 
 RecordList Record::getRecords(std::ifstream &file_base) {
-    list<Record> records(COUNT_OF_RECORDS);
+    utils::list<Record> records(COUNT_OF_RECORDS);
 
     for (Record &rec : records) {
         file_base.read(rec.author, rec.AUTOR_LEN);
@@ -114,7 +114,7 @@ RecordList::RecordList() : record_list(COUNT_OF_RECORDS), array_pointers(new Rec
     __init_array__();
 }
 
-RecordList::RecordList(const list<Record> &l) : record_list(l), array_pointers(new Record *[COUNT_OF_RECORDS]) {
+RecordList::RecordList(const utils::list<Record> &l) : record_list(l), array_pointers(new Record *[COUNT_OF_RECORDS]) {
     __init_array__();
 }
 
@@ -128,7 +128,7 @@ RecordList::RecordList(RecordList &&other) noexcept {
     array_pointers = std::move(other.array_pointers);
 }
 
-RecordList &RecordList::operator=(const list<Record> &l) {
+RecordList &RecordList::operator=(const utils::list<Record> &l) {
     record_list = l;
     __init_array__();
     return *this;
@@ -138,7 +138,7 @@ void RecordList::sort() {
     const int count_of_queue = 256;
 
     for (int i = BITE_NUMBER - 1; i >= 0; i--) {
-        list<Record> Q[count_of_queue];
+        utils::list<Record> Q[count_of_queue];
 
         for (auto &rec : record_list) {
             char last_name[BITE_NUMBER + 1] = { 0 };
@@ -156,7 +156,7 @@ void RecordList::sort() {
     __init_array__();
 }
 
-void RecordList::search(queue<Record> &searched_records, const char *key) {
+void RecordList::search(utils::queue<Record> &searched_records, const char *key) {
     std::size_t left = 0, right = COUNT_OF_RECORDS - 1, middle = 0;
     char last_name[BITE_NUMBER + 1] = { 0 };
 
@@ -175,7 +175,7 @@ void RecordList::search(queue<Record> &searched_records, const char *key) {
     } while (strcmp(last_name, key) == 0 && right < COUNT_OF_RECORDS);
 }
 
-const list<Record> &RecordList::getRecordList() const {
+const utils::list<Record> &RecordList::getRecordList() const {
     return record_list;
 }
 

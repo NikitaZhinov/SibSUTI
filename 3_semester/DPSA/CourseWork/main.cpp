@@ -12,7 +12,7 @@ int main() {
         RecordList records = Record::getRecords(file_base);
         records.sort();
 
-        Printer::printRecords(records);
+        Printer::printRecords(records, file_base);
 
         file_base.close();
     } else
