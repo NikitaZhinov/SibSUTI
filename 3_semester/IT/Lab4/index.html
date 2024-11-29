@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Manager</title>
+</head>
+
+<body>
+    <h1>Buget Manager</h1>
+
+    <div class="currency">
+        <h3>Валюта</h3>
+        <input id="currency-name" type="text" placeholder="Имя">
+        <input id="currency-rate" type="text" placeholder="Курс">
+        <button onclick="veiwCurrencies()">Посмотреть</button>
+        <button onclick="addCurrencies()">Добавить</button>
+        <button onclick="updateCurrencies()">Обновить</button>
+        <button onclick="removeCurrencies()">Удалить</button>
+        <ul id="currency-list"></ul>
+    </div>
+
+    <div class="type-of-expense">
+        <h3>Тип расхода</h3>
+        <input id="expense-type-name" type="text" placeholder="Наименование расхода">
+        <button onclick="veiwTypesOfExpenses()">Посмотреть</button>
+        <button onclick="addTypesOfExpenses()">Добавить</button>
+        <button onclick="updateTypesOfExpenses()">Обновить</button>
+        <button onclick="removeTypesOfExpenses()">Удалить</button>
+        <ul id="expense-type-list"></ul>
+    </div>
+
+    <div class="type-of-income">
+        <h3>Тип дохода</h3>
+        <input id="income-type-name" type="text" placeholder="Наименование дохода">
+        <button onclick="veiwTypesOfIncomes()">Посмотреть</button>
+        <button onclick="addTypesOfIncomes()">Добавить</button>
+        <button onclick="updateTypesOfIncomes()">Обновить</button>
+        <button onclick="removeTypesOfIncomes()">Удалить</button>
+        <ul id="income-type-list"></ul>
+    </div>
+
+    <div>
+        <h3>Расходы</h3>
+        <input id="expense-value" type="text" placeholder="Значение">
+        <input id="expense-type" type="text" placeholder="Тип">
+        <input id="expense-date" type="date" placeholder="Дата">
+        <input id="expense-currency" type="text" placeholder="Валюта">
+        <button onclick="veiwExpenses()">Посмотреть</button>
+        <button onclick="addExpenses()">Добавить</button>
+        <button onclick="updateExpenses()">Обновить</button>
+        <button onclick="removeExpenses()">Удалить</button>
+        <ul id="expense-list"></ul>
+    </div>
+
+    <div>
+        <h3>Доходы</h3>
+        <input id="income-value" type="text" placeholder="Значение">
+        <input id="income-type" type="text" placeholder="Тип">
+        <input id="income-date" type="date" placeholder="Дата">
+        <input id="income-currency" type="text" placeholder="Валюта">
+        <button onclick="veiwIncomes()">Посмотреть</button>
+        <button onclick="addIncomes()">Добавить</button>
+        <button onclick="updateIncomes()">Обновить</button>
+        <button onclick="removeIncomes()">Удалить</button>
+        <ul id="income-list"></ul>
+    </div>
+
+    <div>
+        <h3>Баланс</h3>
+        <input id="balance-start-date" type="date" placeholder="Дата начала подсчёта">
+        <input id="balance-end-date" type="date" placeholder="Дата конца подсчёта">
+        <button onclick="balans()">Расчитать баланс</button>
+        <p id="balance-field"></p>
+    </div>
+
+    <div>
+        <h3>Фильтр</h3>
+        <input id="filter-start-date" type="date" placeholder="Дата начала отфильтровки">
+        <input id="filter-end-date" type="date" placeholder="Дата конца отфильтровки">
+        <input id="filter-income-type" type="text" placeholder="Тип дохода">
+        <input id="filter-expense-type" type="text" placeholder="Тип расхода">
+        <button onclick="filter()">Отфильтровать</button>
+        <div>
+            <table id="filter-table" border="1px">
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

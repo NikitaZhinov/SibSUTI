@@ -54,7 +54,7 @@ class Budget {
                 return this.currencies.at(i).rate;
             }
         }
-        return 0;
+        return 1;
     }
 
     balans(start_date, end_date) {

@@ -326,9 +326,7 @@ void lab10() {
     for (const coding::ShennonTable &table : codes)
         if (max_lentgh < table.length_code) max_lentgh = table.length_code;
 
-    // std::sort(codes.begin(), codes.end(), [](const coding::ShennonTable &a, const coding::ShennonTable &b) { return a.symbol < b.symbol; });
-
-    std::println(" Char | Probability |  Code | Length Code");
+    std::println(" Char | Probability |   Code | Length Code");
     for (const coding::ShennonTable &table : codes) {
         std::print(" {:>4} | {:<11} | ", table.symbol, table.probability);
         if (table.length_code < max_lentgh)
@@ -341,17 +339,32 @@ void lab10() {
     for (const coding::ShennonTable &table : codes) {
         sum += 1.0f / std::pow(2.0f, table.length_code);
     }
-    std::println("\nSUM 1/2^Li <= 1");
-    std::println("{} <= 1\n", sum);
-
     float ml = 0, entropy = 0;
     for (const coding::ShennonTable &table : codes) {
         ml += table.probability * table.length_code;
         entropy += table.probability * -std::log2(table.probability);
     }
-    std::println("Medium Length = {}", ml);
-    std::println("Entropy = {}", entropy);
-    std::println("Medium Length - Entropy = {}", ml - entropy);
+
+    // SetConsoleOutputCP(65001);
+    std::println("\n Неравенство Крафта |                            Энтропия |    Средняя длинна |         Избыточность");
+    std::println("    SUM 1/2^Li <= 1 | H(P1, ..., Pn) = SUM Pi * -log2(Pi) | Lср = SUM Pi * Li | Lср - H(P1, ..., Pn)");
+    std::println("{:14f} <= 1 | {:35f} | {:17} | {:20}", sum, ml, entropy, ml - entropy);
+
+    std::print("\nТекст: ");
+    std::vector<coding::ShennonTable> str(100);
+    for (coding::ShennonTable &s : str) {
+        s = codes[dis(gen)];
+        std::print("{}", s.symbol);
+    }
+    std::print("\nКод: ");
+    std::size_t code_size = 0;
+    for (coding::ShennonTable &s : str) {
+        for (auto i : s.code) {
+            std::print("{}", i);
+            ++code_size;
+        }
+    }
+    std::println("\nРазмер исходной строки: 800\nДлинна кода: {}\nКоэффициент сжатия данных: {}", code_size, static_cast<float>(code_size) / 800.0f);
 }
 
 int main() {

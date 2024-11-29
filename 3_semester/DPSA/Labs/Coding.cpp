@@ -14,10 +14,9 @@ std::vector<coding::ShennonTable> coding::shennon(std::vector<std::pair<char, fl
 
     for (std::size_t i = 1; i < n; ++i) {
         q.at(i) = q.at(i - 1) + p.at(i - 1).second;
-        //l.at(i) = static_cast<int>(-std::log2(p.at(i).second)) + 1;
-        l.at(i) = -std::ceil(std::log2(p.at(i).second));
+        l.at(i) = std::ceil(-std::log2(p.at(i).second));
     }
-
+    
     for (std::size_t i = 1; i < n; ++i) {
         c.at(i).symbol = p.at(i).first;
         c.at(i).probability = p.at(i).second;
