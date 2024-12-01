@@ -1,14 +1,20 @@
 #pragma once
 
 #include <vector>
+#include <list>
+#include <string>
 
 namespace coding {
-    struct ShennonTable {
-        char symbol;
-        float probability;
-        std::vector<int> code;
-        std::size_t length_code;
+    struct Table {
+        char symbol = 0;
+        float probability = 0;
+        float q = 0;
+        std::list<int> code;
     };
 
-    std::vector<ShennonTable> shennon(std::vector<std::pair<char, float>> p);
-}
+    void shennon(std::vector<Table> &arr);
+
+    void fano(std::vector<Table> &arr);
+
+    void huffman(std::vector<Table> &arr);
+} // namespace coding

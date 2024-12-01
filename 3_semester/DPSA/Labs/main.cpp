@@ -2,6 +2,7 @@
 #include "AVLTree.h"
 #include "OptimalSearchTree.h"
 #include "Coding.h"
+#include "String.h"
 
 #include <random>
 #include <iostream>
@@ -260,111 +261,140 @@ void lab9() {
     GraphicsTree<int, OSTreeNode<int>>::veiwTree({ &a1_tree, &a2_tree });
 }
 
-void lab10() {
+void lab10_12() {
     SetConsoleOutputCP(1251);
 
-    std::string file_name = "shennon.txt";
-    std::vector<std::pair<char, float>> russian_alphabet = {
-        std::pair<char, float>('а', 0.0f),
-        std::pair<char, float>('б', 0.0f),
-        std::pair<char, float>('в', 0.0f),
-        std::pair<char, float>('г', 0.0f),
-        std::pair<char, float>('д', 0.0f),
-        std::pair<char, float>('е', 0.0f),
-        std::pair<char, float>('ё', 0.0f),
-        std::pair<char, float>('ж', 0.0f),
-        std::pair<char, float>('з', 0.0f),
-        std::pair<char, float>('и', 0.0f),
-        std::pair<char, float>('й', 0.0f),
-        std::pair<char, float>('к', 0.0f),
-        std::pair<char, float>('л', 0.0f),
-        std::pair<char, float>('м', 0.0f),
-        std::pair<char, float>('н', 0.0f),
-        std::pair<char, float>('о', 0.0f),
-        std::pair<char, float>('п', 0.0f),
-        std::pair<char, float>('р', 0.0f),
-        std::pair<char, float>('с', 0.0f),
-        std::pair<char, float>('т', 0.0f),
-        std::pair<char, float>('у', 0.0f),
-        std::pair<char, float>('ч', 0.0f),
-        std::pair<char, float>('ц', 0.0f),
-        std::pair<char, float>('ш', 0.0f),
-        std::pair<char, float>('щ', 0.0f),
-        std::pair<char, float>('ф', 0.0f),
-        std::pair<char, float>('х', 0.0f),
-        std::pair<char, float>('ь', 0.0f),
-        std::pair<char, float>('ы', 0.0f),
-        std::pair<char, float>('ъ', 0.0f),
-        std::pair<char, float>('э', 0.0f),
-        std::pair<char, float>('ю', 0.0f),
-        std::pair<char, float>('я', 0.0f),
+    std::string file_name = "chars.txt";
+    int file_size = 10240;
+
+    std::vector<coding::Table> alphabet = {
+        coding::Table({ 'a' }),
+        coding::Table({ 'б' }),
+        coding::Table({ 'в' }),
+        coding::Table({ 'г' }),
+        coding::Table({ 'д' }),
+        coding::Table({ 'е' }),
+        coding::Table({ 'ё' }),
+        coding::Table({ 'ж' }),
+        coding::Table({ 'з' }),
+        coding::Table({ 'и' }),
+        coding::Table({ 'й' }),
+        coding::Table({ 'к' }),
+        coding::Table({ 'л' }),
+        coding::Table({ 'м' }),
+        coding::Table({ 'н' }),
+        coding::Table({ 'о' }),
+        coding::Table({ 'п' }),
+        coding::Table({ 'р' }),
+        coding::Table({ 'с' }),
+        coding::Table({ 'т' }),
+        coding::Table({ 'у' }),
+        coding::Table({ 'ф' }),
+        coding::Table({ 'х' }),
+        coding::Table({ 'ц' }),
+        coding::Table({ 'ч' }),
+        coding::Table({ 'ш' }),
+        coding::Table({ 'щ' }),
+        coding::Table({ 'ъ' }),
+        coding::Table({ 'ы' }),
+        coding::Table({ 'ь' }),
+        coding::Table({ 'э' }),
+        coding::Table({ 'ю' }),
+        coding::Table({ 'я' })
     };
-    std::size_t file_size = 10240;
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, russian_alphabet.size() - 1);
+    std::uniform_int_distribution<> dis(0, alphabet.size() - 1);
 
-    // create file
-    /*std::ofstream file_out(file_name);
-    for (std::size_t i = 0; i < file_size; ++i) file_out << russian_alphabet[dis(gen)].first;
-    file_out.close();*/
-
-    std::ifstream file_in(file_name);
-    while (!file_in.eof()) {
-        char c = 0;
-        file_in >> c;
-        for (std::pair<char, float> &p : russian_alphabet)
-            if (c == p.first) ++p.second;
+    std::ifstream file(file_name);
+    if (!file.is_open()) {
+        std::ofstream file_out(file_name);
+        for (std::size_t i = 0; i < file_size; ++i) file_out << alphabet.at(dis(gen)).symbol;
+        file_out.close();
+        file.open(file_name);
     }
-    for (std::pair<char, float> &p : russian_alphabet) p.second /= static_cast<float>(file_size);
-    file_in.close();
 
-    auto codes = coding::shennon(russian_alphabet);
+    while (!file.eof()) {
+        char c = 0;
+        file >> c;
+        for (coding::Table &symbol : alphabet)
+            if (c == symbol.symbol) ++symbol.probability;
+    }
+    for (coding::Table &symbol : alphabet) symbol.probability /= static_cast<float>(file_size);
+    file.close();
+
+    // coding::shennon(alphabet); // lab 10
+    // coding::fano(alphabet); // lab 11
+    // coding::huffman(alphabet); // lab 12
 
     std::size_t max_lentgh = 0;
-    for (const coding::ShennonTable &table : codes)
-        if (max_lentgh < table.length_code) max_lentgh = table.length_code;
+    for (const coding::Table &table : alphabet)
+        if (max_lentgh < table.code.size()) max_lentgh = table.code.size();
 
     std::println(" Char | Probability |   Code | Length Code");
-    for (const coding::ShennonTable &table : codes) {
+    for (const coding::Table &table : alphabet) {
         std::print(" {:>4} | {:<11} | ", table.symbol, table.probability);
-        if (table.length_code < max_lentgh)
-            for (int i = 0; i < max_lentgh - table.length_code; ++i) std::print(" ");
+        if (table.code.size() < max_lentgh)
+            for (int i = 0; i < max_lentgh - table.code.size(); ++i) std::print(" ");
         for (const int &i : table.code) std::print("{}", i);
-        std::println(" | {}", table.length_code);
+        std::println(" | {}", table.code.size());
     }
 
     float sum = 0;
-    for (const coding::ShennonTable &table : codes) {
-        sum += 1.0f / std::pow(2.0f, table.length_code);
+    for (const coding::Table &table : alphabet) {
+        sum += 1.0f / std::pow(2.0f, table.code.size());
     }
     float ml = 0, entropy = 0;
-    for (const coding::ShennonTable &table : codes) {
-        ml += table.probability * table.length_code;
+    for (const coding::Table &table : alphabet) {
+        ml += table.probability * table.code.size();
         entropy += table.probability * -std::log2(table.probability);
     }
 
-    // SetConsoleOutputCP(65001);
     std::println("\n Неравенство Крафта |                            Энтропия |    Средняя длинна |         Избыточность");
     std::println("    SUM 1/2^Li <= 1 | H(P1, ..., Pn) = SUM Pi * -log2(Pi) | Lср = SUM Pi * Li | Lср - H(P1, ..., Pn)");
     std::println("{:14f} <= 1 | {:35f} | {:17} | {:20}", sum, ml, entropy, ml - entropy);
 
     std::print("\nТекст: ");
-    std::vector<coding::ShennonTable> str(100);
-    for (coding::ShennonTable &s : str) {
-        s = codes[dis(gen)];
+    std::vector<coding::Table> str(100);
+    for (coding::Table &s : str) {
+        s = alphabet.at(dis(gen));
         std::print("{}", s.symbol);
     }
     std::print("\nКод: ");
     std::size_t code_size = 0;
-    for (coding::ShennonTable &s : str) {
+    for (coding::Table &s : str) {
         for (auto i : s.code) {
             std::print("{}", i);
             ++code_size;
         }
     }
     std::println("\nРазмер исходной строки: 800\nДлинна кода: {}\nКоэффициент сжатия данных: {}", code_size, static_cast<float>(code_size) / 800.0f);
+}
+
+void lab13() {
+    SetConsoleOutputCP(1251);
+
+    std::string str = "Декабрь - это волшебный месяц, когда границы между реальностью и сказкой стираются, и снег, словно пушистая перина, накрывает землю. С началом зимы начинается время праздников, тепла и уюта, которое хочется запечатлеть не только в сердце, но и в каждом взгляде на экран своего телефона или компьютера.";
+    std::string word = "н";
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, str.size() - 1);
+
+    int compares = 0;
+    auto indexes = str::strstr(str, word, compares);
+
+    std::println("Text: {}", str);
+    std::println("Word: {}", word);
+    std::print("\n    Simple Indexes: ");
+    for (int index : indexes) std::print("{} ", index);
+    std::println("\nCompares: {}\n", compares);
+
+    indexes = str::rabin_losos(str, word, compares);
+    std::print("Rabin-Karp Indexes: ");
+    for (int index : indexes) std::print("{} ", index);
+    std::println("\nCompares: {}", compares);
 }
 
 int main() {
@@ -377,7 +407,8 @@ int main() {
     // lab7();
     // lab8();
     // lab9();
-    lab10();
+    // lab10_12();
+    lab13();
 
     return 0;
 }

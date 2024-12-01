@@ -21,6 +21,9 @@
     <ClCompile Include="Coding.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="String.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -41,6 +44,9 @@
     <ClInclude Include="Coding.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="String.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format">
@@ -53,7 +59,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="shennon.txt">
+    <Text Include="chars.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
