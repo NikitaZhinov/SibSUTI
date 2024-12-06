@@ -261,7 +261,7 @@ void lab9() {
     GraphicsTree<int, OSTreeNode<int>>::veiwTree({ &a1_tree, &a2_tree });
 }
 
-void lab10_12() {
+void lab10_13() {
     SetConsoleOutputCP(1251);
 
     std::string file_name = "chars.txt";
@@ -321,12 +321,13 @@ void lab10_12() {
         for (coding::Table &symbol : alphabet)
             if (c == symbol.symbol) ++symbol.probability;
     }
-    for (coding::Table &symbol : alphabet) symbol.probability /= static_cast<float>(file_size);
+    for (coding::Table &symbol : alphabet) symbol.probability /= static_cast<double>(file_size);
     file.close();
 
     // coding::shennon(alphabet); // lab 10
-    // coding::fano(alphabet); // lab 11
+    coding::fano(alphabet); // lab 11
     // coding::huffman(alphabet); // lab 12
+    // coding::gilbert_mur(alphabet); // lab 13
 
     std::size_t max_lentgh = 0;
     for (const coding::Table &table : alphabet)
@@ -334,18 +335,18 @@ void lab10_12() {
 
     std::println(" Char | Probability |   Code | Length Code");
     for (const coding::Table &table : alphabet) {
-        std::print(" {:>4} | {:<11} | ", table.symbol, table.probability);
+        std::print(" {:>4} | {:<11f} | ", table.symbol, table.probability);
         if (table.code.size() < max_lentgh)
             for (int i = 0; i < max_lentgh - table.code.size(); ++i) std::print(" ");
         for (const int &i : table.code) std::print("{}", i);
         std::println(" | {}", table.code.size());
     }
 
-    float sum = 0;
+    double sum = 0;
     for (const coding::Table &table : alphabet) {
         sum += 1.0f / std::pow(2.0f, table.code.size());
     }
-    float ml = 0, entropy = 0;
+    double ml = 0, entropy = 0;
     for (const coding::Table &table : alphabet) {
         ml += table.probability * table.code.size();
         entropy += table.probability * -std::log2(table.probability);
@@ -353,7 +354,7 @@ void lab10_12() {
 
     std::println("\n Неравенство Крафта |                            Энтропия |    Средняя длинна |         Избыточность");
     std::println("    SUM 1/2^Li <= 1 | H(P1, ..., Pn) = SUM Pi * -log2(Pi) | Lср = SUM Pi * Li | Lср - H(P1, ..., Pn)");
-    std::println("{:14f} <= 1 | {:35f} | {:17} | {:20}", sum, ml, entropy, ml - entropy);
+    std::println("{:14f} <= 1 | {:35f} | {:17f} | {:20f}", sum, entropy, ml, ml - entropy);
 
     std::print("\nТекст: ");
     std::vector<coding::Table> str(100);
@@ -369,14 +370,14 @@ void lab10_12() {
             ++code_size;
         }
     }
-    std::println("\nРазмер исходной строки: 800\nДлинна кода: {}\nКоэффициент сжатия данных: {}", code_size, static_cast<float>(code_size) / 800.0f);
+    std::println("\nРазмер исходной строки: 800\nДлинна кода: {}\nКоэффициент сжатия данных: {}", code_size, static_cast<double>(code_size) / 800.0f);
 }
 
-void lab13() {
+void lab14() {
     SetConsoleOutputCP(1251);
 
     std::string str = "Декабрь - это волшебный месяц, когда границы между реальностью и сказкой стираются, и снег, словно пушистая перина, накрывает землю. С началом зимы начинается время праздников, тепла и уюта, которое хочется запечатлеть не только в сердце, но и в каждом взгляде на экран своего телефона или компьютера.";
-    std::string word = "н";
+    std::string word = "ка";
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -391,10 +392,68 @@ void lab13() {
     for (int index : indexes) std::print("{} ", index);
     std::println("\nCompares: {}\n", compares);
 
+    compares = 0;
     indexes = str::rabin_losos(str, word, compares);
     std::print("Rabin-Karp Indexes: ");
     for (int index : indexes) std::print("{} ", index);
     std::println("\nCompares: {}", compares);
+}
+
+void dz() {
+    SetConsoleOutputCP(1251);
+
+    std::vector<coding::Table> alphabet = {
+        coding::Table({ 'ж' }),
+        coding::Table({ 'и' }),
+        coding::Table({ 'н' }),
+        coding::Table({ 'о' }),
+        coding::Table({ 'в' }),
+        coding::Table({ 'к' }),
+        coding::Table({ 'т' }),
+        coding::Table({ 'а' }),
+        coding::Table({ 'д' }),
+        coding::Table({ 'р' })
+    };
+
+    alphabet.at(0).probability = 0.06;
+    alphabet.at(1).probability = 0.22;
+    alphabet.at(2).probability = 0.12;
+    alphabet.at(3).probability = 0.06;
+    alphabet.at(4).probability = 0.12;
+    alphabet.at(5).probability = 0.06;
+    alphabet.at(6).probability = 0.06;
+    alphabet.at(7).probability = 0.12;
+    alphabet.at(8).probability = 0.06;
+    alphabet.at(9).probability = 0.06;
+
+    coding::huffman(alphabet);
+
+    std::size_t max_lentgh = 0;
+    for (const coding::Table &table : alphabet)
+        if (max_lentgh < table.code.size()) max_lentgh = table.code.size();
+
+    std::println(" Char | Probability |   Code | Length Code");
+    for (const coding::Table &table : alphabet) {
+        std::print(" {:>4} | {:<11} | ", table.symbol, table.probability);
+        if (table.code.size() < max_lentgh)
+            for (int i = 0; i < max_lentgh - table.code.size(); ++i) std::print(" ");
+        for (const int &i : table.code) std::print("{}", i);
+        std::println(" | {}", table.code.size());
+    }
+
+    double sum = 0;
+    for (const coding::Table &table : alphabet) {
+        sum += 1.0f / std::pow(2.0f, table.code.size());
+    }
+    double ml = 0, entropy = 0;
+    for (const coding::Table &table : alphabet) {
+        ml += table.probability * table.code.size();
+        entropy += table.probability * -std::log2(table.probability);
+    }
+
+    std::println("\n Неравенство Крафта |                            Энтропия |    Средняя длинна |         Избыточность");
+    std::println("    SUM 1/2^Li <= 1 | H(P1, ..., Pn) = SUM Pi * -log2(Pi) | Lср = SUM Pi * Li | Lср - H(P1, ..., Pn)");
+    std::println("{:14f} <= 1 | {:35f} | {:17} | {:20}", sum, entropy, ml, ml - entropy);
 }
 
 int main() {
@@ -407,8 +466,10 @@ int main() {
     // lab7();
     // lab8();
     // lab9();
-    // lab10_12();
-    lab13();
+    // lab10_13();
+    // lab14();
+
+    dz();
 
     return 0;
 }
