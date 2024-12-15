@@ -186,28 +186,8 @@ void Printer::printCodeRecords(const RecordList &records, std::ifstream &file_ba
 
     SetConsoleOutputCP(65001);
     char a = 0;
-    std::println("\n1 - Вывести закодированную базу данных");
     std::println("0 - Назад");
     do {
         std::cin >> a;
-    } while (a != '0' && a != '1');
-
-    switch (a) {
-        case '1': {
-            clearConsole();
-            SetConsoleOutputCP(866);
-            code_recs.codingRecords();
-            code_recs.printCodeRecords();
-
-            SetConsoleOutputCP(65001);
-            char a = 0;
-            std::println("0 - Назад");
-            do {
-                std::cin >> a;
-            } while (a != '0');
-        } break;
-
-        default:
-            break;
-    }
+    } while (a != '0');
 }

@@ -24,7 +24,7 @@ namespace str {
         std::size_t h = 0;
 
         for (std::size_t i = 0; i < str.size(); ++i)
-            h = (h * 256 + str[i]) % 2147483647;
+            h = (h * 256 + str[i]) % 11;
 
         return h;
     }
@@ -36,7 +36,7 @@ namespace str {
         std::size_t htemp = hash(temp);
 
         for (int i = 0; i < str.size() - temp.size() + 1; ++i) {
-            ++compares;
+            //++compares;
             if (hstr == htemp && strcmp(str, temp, compares, i)) indexes.push_back(i);
 
             std::string new_str(i + temp.size() + 1, '\0');

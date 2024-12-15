@@ -52,11 +52,6 @@ namespace utils {
 
         vector(rvalue_self other) noexcept : vector() { _move(std::move(other)); }
 
-        vector(std::initializer_list<value_type> init_list) : vector(init_list.size()) {
-            size_type i = 0;
-            for (value_type value : init_list) _values[i++] = value;
-        }
-
         ~vector() { clear(); }
 
         reference_self operator=(const_reference_self right) {
@@ -88,8 +83,6 @@ namespace utils {
             if (index >= _size) throw std::out_of_range("going beyond the allowed range");
             return _values[index];
         }
-
-        size_type size() noexcept { return _size; }
 
         size_type size() const noexcept { return _size; }
     };

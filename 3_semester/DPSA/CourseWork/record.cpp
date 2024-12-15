@@ -20,7 +20,7 @@ void Record::__copy__(const Record &other) {
     year = other.year;
     count_of_line = other.count_of_line;
 }
-    
+
 void Record::__getLastName__(char title[], char *last_name, std::size_t size) {
     int c = 0;
     int j = 0;

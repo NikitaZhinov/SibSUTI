@@ -14,6 +14,7 @@ namespace coding {
 
     void shennon(std::vector<Table> &arr);
     void fano(std::vector<Table> &arr);
+    void fano_A2(std::vector<Table> &arr);
     void huffman(std::vector<Table> &arr);
     void gilbert_mur(std::vector<Table> &arr);
 } // namespace coding

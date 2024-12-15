@@ -5,7 +5,7 @@
 
 namespace coding {
     void shennon(std::vector<Table> &arr) {
-        std::sort(arr.begin(), arr.end(), [](const Table &a, const Table &b) { return a.probability > b.probability; });
+        std::sort(arr.begin(), arr.end(), [](Table &a, Table &b) { a.code.clear(); b.code.clear(); return a.probability > b.probability; });
         arr.insert(arr.begin(), { 0 });
 
         auto pred_it = arr.begin();
@@ -39,27 +39,43 @@ namespace coding {
         return median;
     }
 
-    static void fano(std::vector<Table> &arr, int left, int right) {
+    static int medA2(std::vector<Table> &arr, int left, int right) {
+        double wes = 0, sum = 0;
+        int i = left;
+        for (i = left; i <= right; i++) wes += arr.at(i).probability;
+        for (i = left; i < right; i++) {
+            if (sum < wes / 2 && sum + arr.at(i).probability >= wes / 2) break;
+            sum += arr.at(i).probability;
+        }
+        return i;
+    }
+
+    static void fano(std::vector<Table> &arr, int left, int right, bool a2) {
         if (left < right) {
-            int median = med(arr, left, right);
+            int median = a2 ? medA2(arr, left, right) : med(arr, left, right);
             for (int i = left; i <= right; ++i) {
                 if (i <= median) arr.at(i).code.push_back(0);
                 else arr.at(i).code.push_back(1);
             }
-            fano(arr, left, median);
-            fano(arr, median + 1, right);
+            fano(arr, left, median, a2);
+            fano(arr, median + 1, right, a2);
         }
     }
 
     void fano(std::vector<Table> &arr) {
-        std::sort(arr.begin(), arr.end(), [](const Table &a, const Table &b) { return a.probability > b.probability; });
-        fano(arr, 0, arr.size() - 1);
+        std::sort(arr.begin(), arr.end(), [](Table &a, Table &b) { a.code.clear(); b.code.clear(); return a.probability > b.probability; });
+        fano(arr, 0, arr.size() - 1, false);
+    }
+
+    void fano_A2(std::vector<Table> &arr) {
+        std::sort(arr.begin(), arr.end(), [](Table &a, Table &b) { a.code.clear(); b.code.clear(); return a.probability > b.probability; });
+        fano(arr, 0, arr.size() - 1, true);
     }
 
     static int up(std::vector<Table> &arr, int n, double q) {
         int j = 0;
         for (int i = n - 1; i > 0; --i) {
-            if (arr.at(i - 1).q <= q) arr.at(i).q = arr.at(i - 1).q;
+            if (arr.at(i - 1).q < q) arr.at(i).q = arr.at(i - 1).q;
             else {
                 j = i;
                 break;
@@ -71,7 +87,7 @@ namespace coding {
 
     static void down(std::vector<Table> &arr, int n, int j) {
         std::list<int> s = std::move(arr.at(j).code);
-        for (int i = j; i < n; ++i) arr.at(i).code = std::move(arr.at(i + 1).code);
+        for (int i = j; i < n - 1; ++i) arr.at(i).code = std::move(arr.at(i + 1).code);
 
         arr.at(n - 1).code = s;
         arr.at(n - 1).code.push_back(0);
@@ -93,20 +109,20 @@ namespace coding {
 
     void huffman(std::vector<Table> &arr) {
         std::size_t n = arr.size();
-        std::sort(arr.begin(), arr.end(), [](const Table &a, const Table &b) { return a.probability > b.probability; });
+        std::sort(arr.begin(), arr.end(), [](Table &a, Table &b) { a.code.clear(); b.code.clear(); return a.probability > b.probability; });
         std::for_each(arr.begin(), arr.end(), [](Table &t) { t.q = t.probability; });
         huffman(arr, arr.size());
     }
 
     void gilbert_mur(std::vector<Table> &arr) {
-        std::sort(arr.begin(), arr.end(), [](const Table &a, const Table &b) { return a.symbol < b.symbol; });
+        std::sort(arr.begin(), arr.end(), [](Table &a, Table &b) { a.code.clear(); b.code.clear(); return a.symbol < b.symbol; });
 
         auto pred_it = arr.begin();
         double pr = 0;
         for (auto it = arr.begin(); it != arr.end(); ++it) {
             it->q = pr + pred_it->probability / 2;
             pr += pred_it->probability;
-            it->code.resize(-std::log2(it->probability) + 1);
+            it->code.resize(std::ceil(-std::log2(it->probability)) + 1);
             ++pred_it;
         }
 

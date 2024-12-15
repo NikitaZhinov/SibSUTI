@@ -20,13 +20,6 @@ protected:
     _TreeNode<T> *root;
     std::size_t size;
 
-    template <class _Iter> uint64_t __calculateWeight__(const T &elem, _Iter left, _Iter right) {
-        uint64_t weight = 0;
-        for (_Iter it = left; it != right; it++)
-            if (elem == *it) weight++;
-        return weight;
-    }
-
     uint64_t __sumWeights__(utils::list<T> *l, const std::size_t &size) {
         uint64_t sum = 0;
         for (std::size_t i = 0; i < size; ++i)
@@ -142,6 +135,7 @@ public:
         }
         __sort__(l, 0, size - 1);
         __create__(l, 0, size - 1);
+        delete[] l;
     }
 
     ~tree() { clear(); }

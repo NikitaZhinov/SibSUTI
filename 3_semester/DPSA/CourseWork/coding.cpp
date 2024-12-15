@@ -61,33 +61,6 @@ void CodeRecordList::_createAlphabet(std::ifstream &file) {
     for (CodeTable &code : _alphabet) ++code.probability /= static_cast<float>(chars_number);
 }
 
-CodeRecordList::code_list CodeRecordList::_codingField(char *field, std::size_t size) {
-    code_list code_field(size);
-
-    for (std::size_t i = 0; i < size; ++i)
-        for (const CodeTable &code : _alphabet)
-            if (code.symbol == field[i])
-                code_field.at(i) = code.code;
-
-    return code_field;
-}
-
-void CodeRecordList::_printCode(const code_list &code) {
-    for (std::size_t i = 0; i < code.size(); ++i)
-        for (std::size_t j = 0; j < code.at(i).size(); ++j)
-            std::print("{}", code.at(i).at(j));
-    std::print(" | ");
-}
-
-void CodeRecordList::_printCodeRecord(const CodeRecord &rec) {
-    _printCode(rec.autor);
-    _printCode(rec.title);
-    _printCode(rec.publish);
-
-    std::print("{:b} | ", (rec.rec.year));
-    std::println("{:b}", (rec.rec.count_of_line));
-}
-
 CodeRecordList::CodeRecordList(std::ifstream &file) : _medium_length(0), _entropy(0) {
     _createAlphabet(file);
     _codingAlphabet();
@@ -104,38 +77,6 @@ void CodeRecordList::printCodeAlphabet() {
     std::println("\nSize: {}\n", _alphabet.size());
 
     std::println("\nMedium Length = {}", _medium_length);
-    std::println("Entropy + 2 = {} + 2 = {}", _entropy, _entropy + 2.0f);
-    std::println("Medium Length - (Entropy + 2) = {}", _medium_length - _entropy - 2.0f);
-}
-
-void CodeRecordList::codingRecords() {
-    CodeRecord code_rec;
-    for (const Record &rec : _origin_recs) {
-        code_rec.rec = rec;
-        code_rec.autor = _codingField(rec.author, rec.AUTOR_LEN);
-        code_rec.title = _codingField(rec.title, rec.TITLE_LEN);
-        code_rec.publish = _codingField(rec.publish, rec.PUBLISH_LEN);
-        _records.push_back(code_rec);
-    }
-}
-
-void CodeRecordList::printCodeRecords() {
-    for (const CodeRecord &rec : _records) {
-        std::print("Original: ");
-        Record::printRecord(rec.rec);
-        std::print("  Coding: ");
-        _printCodeRecord(rec);
-    }
-    std::println();
-}
-
-void CodeRecordList::saveCodeRecords() {
-    std::ofstream file("testBase1_code.dat", std::ios_base::binary);
-
-    for (const CodeRecord &rec : _records) {
-        code_type code(8, 0);
-        for (std::size_t i = 0; i < 8; ++i) {
-            // code.at(i) = rec.autor.at(i);
-        }
-    }
+    std::println("Entropy = {}", _entropy);
+    std::println("Medium Length - Entropy = {}", _medium_length - _entropy);
 }
