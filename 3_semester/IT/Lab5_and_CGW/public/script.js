@@ -13,20 +13,6 @@ class Currency {
   }
 }
 
-class Exchange {
-  constructor(options) {
-    this.buy = options.buy;
-    this.sell = options.sell;
-    this.date = new Date(options.date);
-  }
-
-  Update(options) {
-    if (options.buy) this.buy = options.buy;
-    if (options.sell) this.sell = options.sell;
-    if (options.date) this.date = new Date(options.date);
-  }
-}
-
 class ExpenseType {
   constructor(options) {
     this.name = options.name;
@@ -324,8 +310,8 @@ class Budget {
                 <td>${date}</td>
                 <td>${currency}</td>
                 <td>
-                    <button onclick="handleEditIncome(this)">Редактировать</button>
-                    <button onclick="handleDeleteIncome(this)">Удалить</button>
+                    <button class="btn btn-success" onclick="handleEditIncome(this)">Редактировать</button>
+                    <button class="btn btn-success" onclick="handleDeleteIncome(this)">Удалить</button>
                 </td>
             `;
 
@@ -346,8 +332,8 @@ class Budget {
                 <td id = "iDt">${date}</td>
                 <td id = "iCr">${curname}</td>
                 <td>
-                    <button onclick="handleEditIncome(this)">Редактировать</button>
-                    <button onclick="handleDeleteIncome(this)">Удалить</button>
+                    <button class="btn btn-success" onclick="handleEditIncome(this)">Редактировать</button>
+                    <button class="btn btn-success" onclick="handleDeleteIncome(this)">Удалить</button>
                 </td>
             `;
 
@@ -400,8 +386,8 @@ class Budget {
                 <td>${date}</td>
                 <td>${currency}</td>
                 <td>
-                    <button onclick="handleEditExpense(this)">Редактировать</button>
-                    <button onclick="handleDeleteExpense(this)">Удалить</button>
+                    <button class="btn btn-success" onclick="handleEditExpense(this)">Редактировать</button>
+                    <button class="btn btn-success" onclick="handleDeleteExpense(this)">Удалить</button>
                 </td>
             `;
 
@@ -422,8 +408,8 @@ class Budget {
                 <td>${date}</td>
                 <td>${curname}</td>
                 <td>
-                    <button onclick="handleEditExpense(this)">Редактировать</button>
-                    <button onclick="handleDeleteExpense(this)">Удалить</button>
+                    <button class="btn btn-success" onclick="handleEditExpense(this)">Редактировать</button>
+                    <button class="btn btn-success" onclick="handleDeleteExpense(this)">Удалить</button>
                 </td>
             `;
 
