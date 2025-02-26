@@ -6,10 +6,8 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
-// Путь к файлу для хранения данных
 const DATA_FILE = path.join(__dirname, 'budget.json');
 
-// Middleware
 app.use(bodyParser.json());
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,10 +16,8 @@ app.use((req, res, next) => {
     next();
 });
 
-// Настройка статической директории
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Функция чтения данных из файла
 const readData = () => {
     try {
         if (!fs.existsSync(DATA_FILE)) {
@@ -35,7 +31,6 @@ const readData = () => {
     }
 };
 
-// Функция записи данных в файл
 const writeData = (data) => {
     try {
         fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
@@ -45,7 +40,6 @@ const writeData = (data) => {
     }
 };
 
-// API для получения данных
 app.get('/api/budget', (req, res) => {
     try {
         const data = readData();
@@ -56,12 +50,10 @@ app.get('/api/budget', (req, res) => {
     }
 });
 
-// API для обновления данных
 app.post('/api/budget', (req, res) => {
     try {
         const data = req.body;
 
-        // Проверяем формат данных
         if (!data || !Array.isArray(data.incomes) || !Array.isArray(data.expenses)) {
             return res.status(400).json({ message: 'Неверный формат данных' });
         }
@@ -74,7 +66,6 @@ app.post('/api/budget', (req, res) => {
     }
 });
 
-// Запуск сервера
 app.listen(PORT, (error) => {
     if (error) {
         console.error(`Ошибка при запуске сервера на порту ${PORT}:`, error);

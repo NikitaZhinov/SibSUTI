@@ -1,0 +1,100 @@
+/* Общие стили */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "left main right"
+    "footer footer footer";
+  grid-template-rows: 1fr 5fr 1fr;
+  grid-template-columns: 1fr 4fr 1fr;
+  height: 100vh;
+}
+
+.header {
+  grid-area: header;
+  background-color: #4caf50;
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+.left-sidebar {
+  grid-area: left;
+  background-color: #333;
+  color: white;
+  padding: 1em;
+}
+
+.main {
+  grid-area: main;
+  padding: 1em;
+}
+
+.right-sidebar {
+  grid-area: right;
+  background-color: #333;
+  color: white;
+  padding: 1em;
+}
+
+.footer {
+  grid-area: footer;
+  background-color: #4caf50;
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+/* Flexbox контейнер */
+.flex-direction {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.justify-content {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+}
+
+.item {
+  background-color: #f4f4f4;
+  padding: 1em;
+  text-align: center;
+  flex: 1em;
+  box-sizing: border-box;
+}
+
+/* Планшеты */
+@media (max-width: 720px) {
+  body {
+    grid-template-areas:
+      "header header"
+      "main main"
+      "left right"
+      "footer footer";
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Мобильные устройства */
+@media (max-width: 480px) {
+  body {
+    grid-template-areas:
+      "header"
+      "main"
+      "left"
+      "right"
+      "footer";
+    grid-template-columns: 1fr;
+  }
+}

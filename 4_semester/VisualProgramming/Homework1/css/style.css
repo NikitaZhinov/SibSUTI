@@ -1,0 +1,187 @@
+/* Общие стили */
+body {
+  margin: 0;
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  height: 100vh;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+button {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 35pt;
+  padding: 1em;
+  border-width: 0em;
+  border-radius: 0.1em;
+  width: 7em;
+  height: auto;
+}
+
+a {
+  color: #1B54DD;
+  text-decoration: none;
+}
+
+/* Header стили */
+header {
+  grid-area: header;
+  background-color: #1b54dd;
+  color: white;
+  padding: 1em;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 60pt;
+
+  margin-left: auto;
+  margin-right: auto;
+  width: 3em;
+}
+
+.header-problem-meet {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 800%;
+}
+
+.header-problem-img {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-problem-fact {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 60pt;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.header-problem-explanation {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30pt;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.header-problem-cta-text {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+/* Main стили */
+main {
+  grid-area: main;
+  padding-top: 10em;
+  margin-bottom: 5em;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5em;
+}
+
+.main-section {
+  padding-left: 12%;
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main-section-img {
+  width: 45%;
+  margin-right: 5em;
+}
+
+.main-section-text {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 40em;
+}
+
+.main-section-text-title {
+  font-size: 60pt;
+  width: 6em;
+}
+
+.main-section-text-description {
+  font-size: 35pt;
+}
+
+.main-section-text-link {
+  font-size: 30pt;
+}
+
+.main-cta-text {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #1b54dd;
+  color: white;
+}
+
+/* Footer стили */
+footer {
+  grid-area: footer;
+  background-color: rgb(230, 230, 230);
+  padding: 1em;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 5em;
+  margin-top: 5em;
+}
+
+.footer-link-img {
+  width: 4em;
+}
+
+.footer-site-link {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 35pt;
+}
+
+.footer-right {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20pt;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  width: 6em;
+}
+
+.footer-dmi {
+  width: 5em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+  margin-bottom: 2em;
+}
+
+/* Mobile стили */
+@media (max-width: 1487px) {
+  .main-section-img {
+    width: 100%;
+  }
+}

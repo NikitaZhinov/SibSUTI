@@ -1,0 +1,14 @@
+{
+  "name": "task3",
+  "version": "1.0.0",
+  "description": "lab3VP",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "cppshizoid",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

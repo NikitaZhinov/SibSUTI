@@ -377,9 +377,9 @@ void lab10_13() {
     file.close();
 
     // coding::shennon(alphabet); // lab 10
-    //coding::fano(alphabet); // lab 11
-     //coding::huffman(alphabet); // lab 12
-     //coding::gilbert_mur(alphabet); // lab 13
+    // coding::fano(alphabet); // lab 11
+    // coding::huffman(alphabet); // lab 12
+    // coding::gilbert_mur(alphabet); // lab 13
 
     std::size_t max_lentgh = 0;
     for (const coding::Table &table : alphabet)
@@ -424,7 +424,7 @@ void lab10_13() {
     }
     std::println("\nРазмер исходной строки: 800\nДлинна кода: {}\nКоэффициент сжатия данных: {}\n", code_size, static_cast<double>(code_size) / 800.0f);
 
-    //lab11(alphabet, str);
+    // lab11(alphabet, str);
 }
 
 void lab14() {
@@ -520,8 +520,17 @@ int main() {
     // lab7();
     // lab8();
     // lab9();
-     //lab10_13();
-     lab14();
+    // lab10_13();
+    // lab14();
+
+    std::vector<std::pair<char, uint64_t>> arr = {
+        std::pair<char, uint64_t>('р', 1),
+        std::pair<char, uint64_t>('ы', 1),
+        std::pair<char, uint64_t>('б', 1),
+        std::pair<char, uint64_t>('к', 2)
+    };
+
+    EOSTree<char> tree(arr);
 
     return 0;
 }
