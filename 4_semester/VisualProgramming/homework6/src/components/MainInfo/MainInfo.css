@@ -1,0 +1,28 @@
+.MainInfo {
+  grid-area: "main_info";
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /* grid-template-areas: "main_info_city_and_temperature main_info_weather_icon"; */
+  /* overflow-x: hidden;
+  overscroll-behavior: none; */
+}
+
+.MainInfoCityAndTemperature {
+  color: #ced9fa;
+}
+
+.MainInfoCity {
+  font-size: 20px;
+  margin-bottom: 0;
+  width: 140px;
+  color: #e6ebfa;
+  border-width: 0;
+  font-weight: 1000;
+}
+
+.MainInfoTemperature {
+  font-size: 50px;
+  margin: 0;
+}

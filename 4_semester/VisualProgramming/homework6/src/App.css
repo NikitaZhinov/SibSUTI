@@ -1,0 +1,15 @@
+.App {
+  text-align: left;
+  display: grid;
+  grid-template-areas:
+    "today"
+    "main_info"
+    "times"
+    "parametrs"
+    "days_of_week";
+  background-color: #4d71f2;
+  border-radius: 20px;
+  width: 300px;
+  padding-left: 15px;
+  padding-right: 15px;
+}

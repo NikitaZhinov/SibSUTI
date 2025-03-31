@@ -1,0 +1,19 @@
+.Parametrs {
+  grid-area: "parametrs";
+
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+  gap: 25px;
+}
+
+.ParametrsName {
+  color: #a2b5f7;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.ParametrsValue {
+  color: #ced9fa;
+  margin-top: 0;
+}

@@ -1,0 +1,26 @@
+.Times {
+  grid-area: "times";
+
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  gap: 6px;
+}
+
+.Time {
+  width: 55px;
+}
+
+.TimeTime {
+  color: #a2b5f7;
+  margin-bottom: 0;
+}
+
+.TimeTemperature {
+  color: #ced9fa;
+  margin: 0;
+}
+
+.TimeIcon {
+  width: 60px;
+}

@@ -1,23 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BookCard from "./components/BookCard";
 
-async function asyncGetImageLink(isbn: string) {
-  let url = "";
-
-  try {
-    const promis = await fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`
-    );
-
-    if (promis.ok) {
-      const items = (await promis.json()).items;
-      url = items[0].volumeInfo.imageLinks.thumbnail;
-    }
-  } catch (err) {}
-
-  return url;
-}
-
 async function asyncGetBooks() {
   let books = [];
 
@@ -30,8 +13,8 @@ async function asyncGetBooks() {
       try {
         books.push({
           title: book.title,
-          // url: await asyncGetImageLink(book.isbn),
-          url: `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`,
+          // url: `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`,
+          url: book.isbn,
           authors: book.authors,
         });
       } catch (err) {}
@@ -50,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div style={{display: "flex", flexWrap: "wrap"}}>
       {books.map((book) => (
         <BookCard title={book.title} url={book.url} authors={book.authors} />
       ))}

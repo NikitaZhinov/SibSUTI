@@ -1,0 +1,39 @@
+.DaysOfWeek {
+  grid-area: "days_of_week";
+  background-color: #708df4;
+  border-radius: 20px;
+  border-radius: 20px;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-top: 30px;
+  padding: 15px;
+}
+
+.DayOfWeek {
+  display: grid;
+  grid-template-areas: "days_of_week_text days_of_week_weather";
+}
+
+.DayOfWeekDayOfWeekDayNumber {
+  grid-area: "days_of_week_text";
+  color: #a2b5f7;
+}
+
+.DayOfWeekWeather {
+  grid-area: "days_of_week_weather";
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.DayOfWeekIcon {
+  width: 50px;
+}
+
+.DayOfWeekMaxTemperature {
+  color: #ced9fa;
+}
+
+.DayOfWeekMinTemperature {
+  color: #a2b5f7;
+}

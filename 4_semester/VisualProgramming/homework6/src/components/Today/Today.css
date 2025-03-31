@@ -1,0 +1,6 @@
+.Today {
+    grid-area: "today";
+    color: #A2B5F7;
+    text-align: center;
+    font-size: 20px;
+}
