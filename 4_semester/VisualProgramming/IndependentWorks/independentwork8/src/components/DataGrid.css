@@ -1,0 +1,38 @@
+.tree-node {
+  margin: 4px 0;
+  font-family: Arial, sans-serif;
+}
+
+.node-header {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.node-header:hover {
+  background-color: #e9ecef;
+}
+
+.toggle-icon {
+  margin-right: 8px;
+  font-size: 0.8em;
+}
+
+.parent {
+  font-weight: 600;
+  color: #2b2d42;
+}
+
+.leaf {
+  color: #4a4e69;
+  cursor: default;
+}
+
+.children-container {
+  margin-top: 4px;
+  border-left: 2px solid #dee2e6;
+  padding-left: 12px;
+}

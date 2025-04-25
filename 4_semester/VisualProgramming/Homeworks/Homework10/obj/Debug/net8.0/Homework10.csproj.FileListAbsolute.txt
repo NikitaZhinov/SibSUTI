@@ -1,0 +1,75 @@
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\appsettings.json
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Homework10.staticwebassets.endpoints.json
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Homework10.exe
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Homework10.deps.json
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Homework10.runtimeconfig.json
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Homework10.dll
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Homework10.pdb
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.csproj.AssemblyReference.cache
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.AssemblyInfoInputs.cache
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.AssemblyInfo.cs
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.csproj.CoreCompileInputs.cache
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.sourcelink.json
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\scopedcss\bundle\Homework10.styles.css
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\staticwebassets\msbuild.Homework10.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\staticwebassets\msbuild.Homework10.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\staticwebassets\msbuild.build.Homework10.props
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Homework10.props
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Homework10.props
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.csproj.Up2Date
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.dll
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\refint\Homework10.dll
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.pdb
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\Homework10.genruntimeconfig.cache
+C:\Users\zhino\Projects\SibSUTI\4_semester\VisualProgramming\Homeworks\Homework10\obj\Debug\net8.0\ref\Homework10.dll
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\appsettings.json
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Homework10.staticwebassets.endpoints.json
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Homework10.exe
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Homework10.deps.json
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Homework10.runtimeconfig.json
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Homework10.dll
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Homework10.pdb
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.csproj.AssemblyReference.cache
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.AssemblyInfoInputs.cache
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.AssemblyInfo.cs
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.csproj.CoreCompileInputs.cache
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\scopedcss\bundle\Homework10.styles.css
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\staticwebassets\msbuild.Homework10.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\staticwebassets\msbuild.Homework10.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\staticwebassets\msbuild.build.Homework10.props
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Homework10.props
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Homework10.props
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.csproj.Up2Date
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.dll
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\refint\Homework10.dll
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.pdb
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\Homework10.genruntimeconfig.cache
+C:\Users\cppshizoid\Downloads\Telegram Desktop\Homework10\Homework10\obj\Debug\net8.0\ref\Homework10.dll

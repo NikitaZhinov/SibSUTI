@@ -1,0 +1,28 @@
+image: d1orn/gameoflife
+
+stages:
+  - codestyle
+  - build
+  - test
+
+codestyle:
+  stage: codestyle
+  script:
+    - clang-format -n include/*.hpp src/*.cpp test/*.cpp
+
+build:
+  stage: build
+  script:
+    - mkdir build
+    - cd build
+    - cmake .. -G Ninja
+    - cmake --build .
+
+testing:
+  stage: test
+  script:
+    - mkdir build
+    - cd build
+    - cmake .. -G Ninja
+    - cmake --build .
+    - ./GameOfLifeTests

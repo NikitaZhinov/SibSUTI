@@ -1,0 +1,74 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.data-set {
+  width: 100%;
+}
+
+.data-set table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-set th,
+.data-set td {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.data-set th {
+  background-color: #f2f2f2;
+}
+
+.data-set tr.selected {
+  border-width: 2px;
+  border-style: solid;
+  border-color: #8ddbff;
+  background-color: #bceaff;
+}
+
+.data-set .selector-column {
+  width: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.Button {
+  background-color: #618afb;
+  margin: 10px 20px 10px 20px;
+  width: 150px;
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  border-width: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
