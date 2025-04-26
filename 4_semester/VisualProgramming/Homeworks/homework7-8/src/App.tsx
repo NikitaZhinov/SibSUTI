@@ -1,12 +1,14 @@
 import axios from "axios";
 import "./App.css";
-import DataSet from "./components/DataSet";
+import DataSet, { ChangeData } from "./components/DataSet";
 import { FC, useEffect, useState } from "react";
+
+const SITE_PREFIX = "http://localhost:5127/comments";
 
 async function asyncGetData() {
   let data = Array<any>();
   try {
-    const promis = await axios.get("http://localhost:5170/comments");
+    const promis = await axios.get(SITE_PREFIX);
     data = promis.data;
   } catch (err) {
     console.error("cant load data");
@@ -16,97 +18,121 @@ async function asyncGetData() {
 
 const App: FC = () => {
   const [data, setData] = useState(Array<any>);
-  const [selectedRows, setSelectedRows] = useState(new Set<number>());
 
   const addRow = () => {
+    let new_data: ChangeData = {
+      status: false,
+      data: {},
+      request: () => false,
+    };
+
     const post_id = prompt("Enter post ID");
-    if (!post_id) return;
+    if (!post_id) return new_data;
 
     const name = prompt("Enter your name");
-    if (!name) return;
+    if (!name) return new_data;
 
     const email = prompt("Enter your email");
-    if (!email) return;
+    if (!email) return new_data;
 
     const body = prompt("Your comment");
-    if (!body) return;
+    if (!body) return new_data;
 
-    const new_data = {
+    const new_row = {
       postId: Number(post_id),
       id: data.length + 1,
       name: name,
       email: email,
       body: body,
     };
-    console.log(new_data);
-    setData((prev: any[]) => [...prev, new_data]);
-    axios
-      .post("http://localhost:5170/comments", new_data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    new_data.data = new_row;
+    new_data.status = true;
+    new_data.request = () => {
+      try {
+        axios
+          .post(SITE_PREFIX, new_row)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        return true;
+      } catch (err) {
+        return false;
+      }
+    };
+    return new_data;
   };
 
-  const removeRow = () => {
-    selectedRows.forEach((row) => {
-      axios
-        .delete(`http://localhost:5170/comments/${data[row].id}`)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-    setData((prev: any[]) => prev.filter((data, id) => !selectedRows.has(id)));
-    setSelectedRows(new Set<any>());
-  };
-
-  const updateRow = () => {
-    selectedRows.forEach((row) => {
-      const new_post_id = prompt("New post ID");
-      if (!new_post_id) return;
-
-      const new_name = prompt("New name");
-      if (!new_name) return;
-
-      const new_email = prompt("New email");
-      if (!new_email) return;
-
-      const new_body = prompt("New comment");
-      if (!new_body) return;
-
-      const new_data = {
-        postId: new_post_id,
-        name: new_name,
-        email: new_email,
-        body: new_body,
-        id: data[row].id,
-      };
-
-      axios
-        .patch(`http://localhost:5170/comments/${new_data.id}`, new_data)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      setData((prev: any[]) => {
-        let new_table = [...prev];
-        for (let i = 0; i < new_table.length; ++i) {
-          if (i === row) {
-            new_table[i] = new_data;
-            break;
-          }
+  const removeRow = (row_id: number) => {
+    return {
+      status: true,
+      data: {},
+      request: () => {
+        try {
+          axios
+            .delete(`${SITE_PREFIX}/${data[row_id].id}`)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          return true;
+        } catch (error) {
+          return false;
         }
-        return new_table;
-      });
-    });
+      },
+    };
+  };
+
+  const updateRow = (row_id: number) => {
+    let new_data: ChangeData = {
+      status: false,
+      data: {},
+      request: () => false,
+    };
+
+    const new_post_id = prompt("New post ID");
+    if (!new_post_id) return new_data;
+
+    const new_name = prompt("New name");
+    if (!new_name) return new_data;
+
+    const new_email = prompt("New email");
+    if (!new_email) return new_data;
+
+    const new_body = prompt("New comment");
+    if (!new_body) return new_data;
+
+    const new_row = {
+      postId: new_post_id,
+      name: new_name,
+      email: new_email,
+      body: new_body,
+      id: data[row_id].id,
+    };
+
+    new_data.status = true;
+    new_data.data = new_row;
+    new_data.request = () => {
+      try {
+        axios
+          .patch(`${SITE_PREFIX}/${new_row.id}`, new_row)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
+    return new_data;
   };
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import axios from "axios";
 
 export interface ChangeData {
   status: boolean;
@@ -12,8 +11,8 @@ export interface DataSetProps {
   columns: Array<string>;
   renderCell?: (item: any, columnKey: string) => React.ReactNode;
   addRow: () => ChangeData;
-  removeRow: () => ChangeData;
-  updateRow: () => ChangeData;
+  removeRow: (row_id: number) => ChangeData;
+  updateRow: (row_id: number) => ChangeData;
 }
 
 function defaultRenderCell(item: any, columnKey: string) {
@@ -42,9 +41,8 @@ const DataSet: FC<DataSetProps> = ({
       if (newSelected.has(index)) newSelected.delete(index);
       else newSelected.add(index);
     } else {
-      if (newSelected.has(index) && newSelected.size === 1) {
-        newSelected.clear();
-      } else {
+      if (newSelected.has(index) && newSelected.size === 1) newSelected.clear();
+      else {
         newSelected.clear();
         newSelected.add(index);
       }
@@ -56,80 +54,50 @@ const DataSet: FC<DataSetProps> = ({
   const addData = () => {
     const st = addRow();
     if (st.status) {
-      // console.log(st.data);
       setDataTable((prev: any[]) => [...prev, st.data]);
       if (!st.request()) {
-        
+        let new_select_rows = new Set<number>();
+        new_select_rows.add(data.length - 1);
+        setSelectedRows(new_select_rows);
+        setDataTable((prev: any[]) =>
+          prev.filter((data, id) => !selectedRows.has(id))
+        );
+        setSelectedRows(new Set<any>());
       }
-      // axios
-      //   .post("http://localhost:5170/comments", st.data)
-      //   .then((res) => {
-      //     console.log(res);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
     }
   };
 
   const deleteData = () => {
+    let ignoredRows = new Set<number>();
     selectedRows.forEach((row) => {
-      axios
-        .delete(`http://localhost:5170/comments/${data_table[row].id}`)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (!removeRow(row).request()) ignoredRows.add(row);
     });
     setDataTable((prev: any[]) =>
-      prev.filter((data, id) => !selectedRows.has(id))
+      prev.filter((data, id) => !selectedRows.has(id) || ignoredRows.has(id))
     );
     setSelectedRows(new Set<any>());
   };
 
   const updateData = () => {
     selectedRows.forEach((row) => {
-      const new_post_id = prompt("New post ID");
-      if (!new_post_id) return;
-
-      const new_name = prompt("New name");
-      if (!new_name) return;
-
-      const new_email = prompt("New email");
-      if (!new_email) return;
-
-      const new_body = prompt("New comment");
-      if (!new_body) return;
-
-      const new_data = {
-        postId: new_post_id,
-        name: new_name,
-        email: new_email,
-        body: new_body,
-        id: data_table[row].id,
-      };
-
-      axios
-        .patch(`http://localhost:5170/comments/${new_data.id}`, new_data)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      setDataTable((prev: any[]) => {
-        let new_table = [...prev];
-        for (let i = 0; i < new_table.length; ++i) {
-          if (i === row) {
-            new_table[i] = new_data;
-            break;
-          }
-        }
-        return new_table;
-      });
+      const st = updateRow(row);
+      if (st.status) {
+        const new_data = st.data;
+        const old_data = data[row];
+        const set_data = (new_data: any) =>
+          setDataTable((prev: any[]) => {
+            let new_table = [...prev];
+            for (let i = 0; i < new_table.length; ++i) {
+              if (i === row) {
+                new_table[i] = new_data;
+                break;
+              }
+            }
+            return new_table;
+          });
+        set_data(new_data);
+        if (!st.request()) set_data(old_data);
+      }
     });
   };
 
