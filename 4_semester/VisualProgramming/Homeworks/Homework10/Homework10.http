@@ -1,61 +1,13 @@
-@hostname = localhost
-@port = 5170
-@host = {{hostname}}:{{port}}
-@contentType = application/json
+@Homework10_HostAddress = http://localhost:5127
 
-### 1. Получить все комментарии (должен вернуть пустой массив)
-GET http://{{host}}/comments
-
-### 2. Добавить новый комментарий
-POST http://{{host}}/comments
-Content-Type: {{contentType}}
+POST {{Homework10_HostAddress}}/comments/
+Accept: application/json
 
 {
-  "postId": 1,
-  "name": "Иван Иванов",
-  "email": "ivan@example.com",
-  "body": "Это мой первый комментарий"
+  "name" = "new_commnet"
+  "postId" = 100
+  "email" = "test"
+  "body" = "testy"
 }
 
-### 3. Добавить второй комментарий
-POST http://{{host}}/comments
-Content-Type: {{contentType}}
-
-{
-  "postId": 1,
-  "name": "Петр Петров",
-  "email": "petr@example.com",
-  "body": "Это второй комментарий"
-}
-
-### 4. Получить все комментарии (должно быть 2)
-GET http://{{host}}/comments
-
-### 5. Получить первый комментарий по ID
-GET http://{{host}}/comments/1
-
-### 6. Обновить первый комментарий
-PATCH http://{{host}}/comments/1
-Content-Type: {{contentType}}
-
-{
-  "postId": 1,
-  "name": "Иван Иванов (обновленный)",
-  "email": "ivan.updated@example.com",
-  "body": "Это обновленный комментарий"
-}
-
-### 7. Проверить обновленный комментарий
-GET http://{{host}}/comments/1
-
-### 8. Удалить второй комментарий
-DELETE http://{{host}}/comments/2
-
-### 9. Проверить удаление (должен вернуть 404)
-GET http://{{host}}/comments/2
-
-### 10. Попытаться удалить несуществующий комментарий (должен вернуть 404)
-DELETE http://{{host}}/comments/999
-
-### 11. Получить все комментарии (должен остаться только первый)
-GET http://{{host}}/comments
+###

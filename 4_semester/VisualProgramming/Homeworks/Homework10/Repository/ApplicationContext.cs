@@ -1,15 +1,12 @@
 using Homework10.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Homework11.Repository
+namespace Homework10.Repository
 {
     public class ApplicationContext : DbContext
     {
         public DbSet<Comment> Comments { get; set; }
-
-        // Create database on first request
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
-        { Database.EnsureCreated(); }
+        public DbSet<LogModel> Logs { get; set; }
 
         // Create database on first request
         public ApplicationContext()
@@ -19,7 +16,7 @@ namespace Homework11.Repository
         {
             optionsBuilder.UseNpgsql("Host=localhost;" +
                                      "Port=5432;" +
-                                     "Database=usersdb;" +
+                                     "Database=homework10;" +
                                      "Username=postgres;" +
                                      "Password=2208");
         }
@@ -48,11 +45,22 @@ namespace Homework11.Repository
                 new_comment.Id = id;
                 RemoveComment(id);
                 AddComment(new_comment);
+                return new_comment;
             }
-            return comment;
+            return null;
         }
 
         public Comment? GetComment(int id)
         { return Comments.Find(id); }
+
+        public LogModel AddLog(LogModel log)
+        {
+            Add(log);
+            SaveChanges();
+            return log;
+        }
+
+        public LogModel? GetLog(int id)
+        { return Logs.Find(id); }
     }
 }

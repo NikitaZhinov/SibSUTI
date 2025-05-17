@@ -3,7 +3,7 @@ import "./App.css";
 import DataSet, { ChangeData } from "./components/DataSet";
 import { FC, useEffect, useState } from "react";
 
-const SITE_PREFIX = "http://localhost:5127/comments";
+const SITE_PREFIX = "http://localhost:5127/logs";
 
 async function asyncGetData() {
   let data = Array<any>();
@@ -143,7 +143,7 @@ const App: FC = () => {
     <div className="App">
       <DataSet
         data={data}
-        columns={["postId", "id", "name", "email", "body"]}
+        columns={["id", "time", "type", "info"]}
         addRow={addRow}
         removeRow={removeRow}
         updateRow={updateRow}

@@ -1,0 +1,32 @@
+@IndependentWork10_HostAddress = http://localhost:5244
+
+GET {{IndependentWork10_HostAddress}}/api/todo
+
+###
+
+GET {{IndependentWork10_HostAddress}}/api/todo/0
+
+###
+
+POST {{IndependentWork10_HostAddress}}/api/todo
+Content-Type: application/json
+
+{
+  "title": "hello",
+  "description": "opa opa america evropa",
+  "isCompleted": true
+}
+
+###
+
+PUT {{IndependentWork10_HostAddress}}/api/todo/0
+Content-Type: application/json
+
+{
+  "title": "hello, world",
+  "isCompleted": false
+}
+
+###
+
+DELETE {{IndependentWork10_HostAddress}}/api/todo/0
